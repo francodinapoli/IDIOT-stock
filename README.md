@@ -60,4 +60,4 @@ Para que los cambios se guarden en el repo y no solo en tu navegador:
    - *Repository access*: solo el repo del stock.
    - *Permissions → Contents: **Read and write***.
 2. En la app, botón **⚙** → completá owner, repo, rama (`main`), archivo (`data.json`) y pegá el token → **Guardar config**.
-3. Usás **⬆ Guardar en GitHub** para subir ca
+3. Usás **⬆ Guardar en GitHub** para subir ca.
