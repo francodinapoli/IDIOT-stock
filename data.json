@@ -1,0 +1,2080 @@
+{
+  "meta": {
+    "currency": "USD",
+    "updatedAt": "2026-07-24T12:46:13.415922Z",
+    "version": 1
+  },
+  "components": [
+    {
+      "id": "c1",
+      "name": "Base Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 18.26,
+      "provider": "",
+      "idcode": "200103.0",
+      "notes": ""
+    },
+    {
+      "id": "c2",
+      "name": "Fte_mod_QR_Printer Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 28.7,
+      "provider": "",
+      "idcode": "200104.0",
+      "notes": ""
+    },
+    {
+      "id": "c3",
+      "name": "Pata Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 75.67,
+      "provider": "",
+      "idcode": "200105.0",
+      "notes": ""
+    },
+    {
+      "id": "c4",
+      "name": "Grampa_USB_C Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 2.17,
+      "provider": "",
+      "idcode": "200106.0",
+      "notes": ""
+    },
+    {
+      "id": "c5",
+      "name": "Tras_AIO Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 53.05,
+      "provider": "",
+      "idcode": "200107.0",
+      "notes": ""
+    },
+    {
+      "id": "c6",
+      "name": "Tapa_AIO Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 10.44,
+      "provider": "",
+      "idcode": "200108.0",
+      "notes": ""
+    },
+    {
+      "id": "c7",
+      "name": "Tras_mod_QR_Printer Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 2.61,
+      "provider": "",
+      "idcode": "200109.0",
+      "notes": ""
+    },
+    {
+      "id": "c8",
+      "name": "Cubre_inf_pata Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 4.17,
+      "provider": "",
+      "idcode": "200110.0",
+      "notes": ""
+    },
+    {
+      "id": "c9",
+      "name": "Percha_colgado Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 2.87,
+      "provider": "",
+      "idcode": "200111.0",
+      "notes": ""
+    },
+    {
+      "id": "c10",
+      "name": "Sop_QR Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 3.83,
+      "provider": "",
+      "idcode": "200112.0",
+      "notes": ""
+    },
+    {
+      "id": "c11",
+      "name": "Prensa_cable Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 1.3,
+      "provider": "",
+      "idcode": "200113.0",
+      "notes": ""
+    },
+    {
+      "id": "c12",
+      "name": "Enrollador_cable Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 3.04,
+      "provider": "",
+      "idcode": "200114.0",
+      "notes": ""
+    },
+    {
+      "id": "c13",
+      "name": "Soporte_point Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 12.0,
+      "provider": "",
+      "idcode": "200115.0",
+      "notes": ""
+    },
+    {
+      "id": "c14",
+      "name": "Cubre_cable_point Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 3.04,
+      "provider": "",
+      "idcode": "200116.0",
+      "notes": ""
+    },
+    {
+      "id": "c15",
+      "name": "Tapa_point Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 7.48,
+      "provider": "",
+      "idcode": "200117.0",
+      "notes": ""
+    },
+    {
+      "id": "c16",
+      "name": "Base_prensa_cable Blanco",
+      "group": "Sheet metal",
+      "stock": 74.0,
+      "price": 0.24,
+      "provider": "",
+      "idcode": "200127.0",
+      "notes": ""
+    },
+    {
+      "id": "c17",
+      "name": "Zebra KC50 21,5\"",
+      "group": "Componentes",
+      "stock": 69.0,
+      "price": 1275.0,
+      "provider": "",
+      "idcode": "400046.0",
+      "notes": ""
+    },
+    {
+      "id": "c18",
+      "name": "Fuente Zebra",
+      "group": "Componentes",
+      "stock": 69.0,
+      "price": 0.0,
+      "provider": "",
+      "idcode": "450063.0",
+      "notes": ""
+    },
+    {
+      "id": "c19",
+      "name": "Thermal Printer EP-261C. Black. 24V",
+      "group": "Componentes",
+      "stock": 7.0,
+      "price": 97.2,
+      "provider": "",
+      "idcode": "400047.0",
+      "notes": ""
+    },
+    {
+      "id": "c20",
+      "name": "Thermal Printer EP-261C. White. 24V",
+      "group": "Componentes",
+      "stock": 69.0,
+      "price": 97.2,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c21",
+      "name": "Mini Wired 2D Barcode Scanner. Model GT-7700E",
+      "group": "Componentes",
+      "stock": 84.0,
+      "price": 50.22,
+      "provider": "Xincode",
+      "idcode": "450010.0",
+      "notes": ""
+    },
+    {
+      "id": "c22",
+      "name": "Regaton Goma adhesivo tipo Macbook",
+      "group": "Componentes",
+      "stock": 296.0,
+      "price": 0.3,
+      "provider": "Dongguan Hengchang",
+      "idcode": "400000.0",
+      "notes": ""
+    },
+    {
+      "id": "c23",
+      "name": "PCB Splitter V3",
+      "group": "Componentes",
+      "stock": 79.0,
+      "price": 12.0,
+      "provider": "",
+      "idcode": "450046.0",
+      "notes": ""
+    },
+    {
+      "id": "c24",
+      "name": "Male to Male 5.5x2.5 Barrel Jack length 40cm, section 0.75mm2",
+      "group": "Componentes",
+      "stock": 84.0,
+      "price": 0.6,
+      "provider": "",
+      "idcode": "450051.0",
+      "notes": ""
+    },
+    {
+      "id": "c25",
+      "name": "Cable Micro USB (right angle direction DOWN) a USB C 130mm de largo",
+      "group": "Componentes",
+      "stock": 89.0,
+      "price": 3.6,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c26",
+      "name": "HUB USB A a C",
+      "group": "Componentes",
+      "stock": 18.0,
+      "price": 10.39,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c27",
+      "name": "Kit Espuma",
+      "group": "Packaging",
+      "stock": 6.0,
+      "price": 32,
+      "provider": "Lab laser",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c28",
+      "name": "Caja",
+      "group": "Packaging",
+      "stock": 74.0,
+      "price": 5.133333333,
+      "provider": "Corrupe",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c29",
+      "name": "Kit envio",
+      "group": "Packaging",
+      "stock": 8.0,
+      "price": 0.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c30",
+      "name": "AIO 22\"_TD_215A_N5095_250nits",
+      "group": "Componentes",
+      "stock": 14,
+      "price": 603.0,
+      "provider": "Touch Wo",
+      "idcode": "450079.0",
+      "notes": ""
+    },
+    {
+      "id": "c31",
+      "name": "AIO 22\"_TD_215A_N5095_1000nits",
+      "group": "Componentes",
+      "stock": 2.0,
+      "price": 783.0,
+      "provider": "Touch Wo",
+      "idcode": "450078.0",
+      "notes": ""
+    },
+    {
+      "id": "c32",
+      "name": "Fuente Switching 12V 5A",
+      "group": "Componentes",
+      "stock": 93,
+      "price": 16.09,
+      "provider": "Touch Wo",
+      "idcode": "450063.0",
+      "notes": ""
+    },
+    {
+      "id": "c33",
+      "name": "Impresora EP261N - Color White",
+      "group": "Componentes",
+      "stock": 18,
+      "price": 97.2,
+      "provider": "Cashino",
+      "idcode": "450007.0",
+      "notes": ""
+    },
+    {
+      "id": "c34",
+      "name": "PCB Splitter V2",
+      "group": "Componentes",
+      "stock": 37,
+      "price": 12.6,
+      "provider": "PCB WAY",
+      "idcode": "450046.0",
+      "notes": ""
+    },
+    {
+      "id": "c35",
+      "name": "Male to Male 5.5x2.5 Barrel Jack length 30cm, section 0.75mm2",
+      "group": "Componentes",
+      "stock": 26,
+      "price": 1.05,
+      "provider": "Goo Chain",
+      "idcode": "450051.0",
+      "notes": ""
+    },
+    {
+      "id": "c36",
+      "name": "Cable Antena WIFI Pigtail: largo util : 60 cm / Pigtail Sma Macho R/p a Sma Hembra R/p - Bajo ruido Tipo de red RG-58 ; cable Coaxil",
+      "group": "Componentes",
+      "stock": 33,
+      "price": 1.57,
+      "provider": "Goo Chain",
+      "idcode": "450047.0",
+      "notes": ""
+    },
+    {
+      "id": "c37",
+      "name": "Arandela Spacer antena wifi",
+      "group": "Componentes",
+      "stock": 14,
+      "price": 0.05,
+      "provider": "IDIOT",
+      "idcode": "400045.0",
+      "notes": ""
+    },
+    {
+      "id": "c38",
+      "name": "Extensor USB",
+      "group": "Componentes",
+      "stock": 12,
+      "price": 3.0,
+      "provider": "",
+      "idcode": "450029.0",
+      "notes": ""
+    },
+    {
+      "id": "c39",
+      "name": "Kit de envio",
+      "group": "Packaging",
+      "stock": 20.0,
+      "price": 0.0,
+      "provider": "IDIOT",
+      "idcode": "-",
+      "notes": ""
+    },
+    {
+      "id": "c40",
+      "name": "Caja triple refrzado",
+      "group": "Packaging",
+      "stock": 16,
+      "price": 5.333333333,
+      "provider": "Corrupe SA (edgardo)",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c41",
+      "name": "POS V6_Gab Pantalla",
+      "group": "Sheet metal",
+      "stock": 16,
+      "price": 52.03,
+      "provider": "Juan manuel",
+      "idcode": "200088B",
+      "notes": ""
+    },
+    {
+      "id": "c42",
+      "name": "POS V6_Tapa Trasera",
+      "group": "Sheet metal",
+      "stock": 16,
+      "price": 29.78,
+      "provider": "Juan manuel",
+      "idcode": "200089A",
+      "notes": ""
+    },
+    {
+      "id": "c43",
+      "name": "POS V6_Pata",
+      "group": "Sheet metal",
+      "stock": 16,
+      "price": 66.91,
+      "provider": "Juan manuel",
+      "idcode": "200090A",
+      "notes": ""
+    },
+    {
+      "id": "c44",
+      "name": "POS V6_Guarda Inf",
+      "group": "Sheet metal",
+      "stock": 16,
+      "price": 7.11,
+      "provider": "Juan manuel",
+      "idcode": "200091B",
+      "notes": ""
+    },
+    {
+      "id": "c45",
+      "name": "POS V6_Grampa Fuente",
+      "group": "Sheet metal",
+      "stock": 42,
+      "price": 2.5,
+      "provider": "Juan manuel",
+      "idcode": "200092A",
+      "notes": ""
+    },
+    {
+      "id": "c46",
+      "name": "POS V6_Prensa cable",
+      "group": "Sheet metal",
+      "stock": 14,
+      "price": 1.26,
+      "provider": "Juan manuel",
+      "idcode": "200093A",
+      "notes": ""
+    },
+    {
+      "id": "c47",
+      "name": "POS V6_Frente Mod PR QR",
+      "group": "Sheet metal",
+      "stock": 14,
+      "price": 40.23,
+      "provider": "Juan manuel",
+      "idcode": "200094B",
+      "notes": ""
+    },
+    {
+      "id": "c48",
+      "name": "POS V6_Tapa Mod PR QR",
+      "group": "Sheet metal",
+      "stock": 14,
+      "price": 4.47,
+      "provider": "Juan manuel",
+      "idcode": "200095A",
+      "notes": ""
+    },
+    {
+      "id": "c49",
+      "name": "POS V6_Gancho colgado",
+      "group": "Sheet metal",
+      "stock": 14,
+      "price": 3.74,
+      "provider": "Juan manuel",
+      "idcode": "200099.0",
+      "notes": ""
+    },
+    {
+      "id": "c50",
+      "name": "POS V6_Soporte Point",
+      "group": "Sheet metal",
+      "stock": 42.0,
+      "price": 0.0,
+      "provider": "Juan manuel",
+      "idcode": "200100A",
+      "notes": ""
+    },
+    {
+      "id": "c51",
+      "name": "POS V6_Piso Base V2",
+      "group": "Sheet metal",
+      "stock": 14,
+      "price": 23.2,
+      "provider": "Juan manuel",
+      "idcode": "200101A",
+      "notes": ""
+    },
+    {
+      "id": "c52",
+      "name": "POS V6_Enrollador_cable",
+      "group": "Sheet metal",
+      "stock": 14,
+      "price": 3.46,
+      "provider": "Juan manuel",
+      "idcode": "200102.0",
+      "notes": ""
+    },
+    {
+      "id": "c53",
+      "name": "POS V6_Base_Point_Payway",
+      "group": "Sheet metal",
+      "stock": 28,
+      "price": 8.17,
+      "provider": "Juan manuel",
+      "idcode": "200118.0",
+      "notes": ""
+    },
+    {
+      "id": "c54",
+      "name": "POS V6_Tapa_tras_point_Payway",
+      "group": "Sheet metal",
+      "stock": 29,
+      "price": 2.77,
+      "provider": "Juan manuel",
+      "idcode": "200119.0",
+      "notes": ""
+    },
+    {
+      "id": "c55",
+      "name": "POS V6_Cubre_cable_point_payway",
+      "group": "Sheet metal",
+      "stock": 27,
+      "price": 3.13,
+      "provider": "Juan manuel",
+      "idcode": "200120.0",
+      "notes": ""
+    },
+    {
+      "id": "c56",
+      "name": "OPS V6.3 15.6\"",
+      "group": "Componentes",
+      "stock": 47.0,
+      "price": 390.6,
+      "provider": "Touch WO",
+      "idcode": "OPS V6.3",
+      "notes": ""
+    },
+    {
+      "id": "c57",
+      "name": "Base OPS",
+      "group": "Componentes",
+      "stock": 46.0,
+      "price": 0.0,
+      "provider": "Touch WO",
+      "idcode": "400044.0",
+      "notes": ""
+    },
+    {
+      "id": "c58",
+      "name": "Fuente 12v 5a Huntkey",
+      "group": "Componentes",
+      "stock": 45.0,
+      "price": 16.09,
+      "provider": "Touch WO",
+      "idcode": "450064.0",
+      "notes": ""
+    },
+    {
+      "id": "c59",
+      "name": "OPS V6.2 10.1\"",
+      "group": "Componentes",
+      "stock": 47.0,
+      "price": 273.6,
+      "provider": "Touch Wo",
+      "idcode": "OPS V6.2",
+      "notes": ""
+    },
+    {
+      "id": "c60",
+      "name": "Kit Chapa Check-in",
+      "group": "Sheet metal",
+      "stock": 47.0,
+      "price": 38.0,
+      "provider": "Juan manuel",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c61",
+      "name": "Candado",
+      "group": "Componentes",
+      "stock": 25.0,
+      "price": 5.0,
+      "provider": "ML",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c62",
+      "name": "JD156B-N100",
+      "group": "Componentes",
+      "stock": 46.0,
+      "price": 234.0,
+      "provider": "ELEBAO",
+      "idcode": "-",
+      "notes": ""
+    },
+    {
+      "id": "c63",
+      "name": "HDMI",
+      "group": "Componentes",
+      "stock": 46.0,
+      "price": 0.0,
+      "provider": "",
+      "idcode": "-",
+      "notes": ""
+    },
+    {
+      "id": "c64",
+      "name": "Soporte VESA 75/100 o soporte",
+      "group": "Componentes",
+      "stock": 42.0,
+      "price": 7.11,
+      "provider": "LAB LASER",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c65",
+      "name": "Kit bancada",
+      "group": "Sheet metal",
+      "stock": 3.0,
+      "price": 46.66666667,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c66",
+      "name": "Kit piezas torneadas",
+      "group": "Sheet metal",
+      "stock": 3.0,
+      "price": 100,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c67",
+      "name": "Tapa trasera",
+      "group": "Sheet metal",
+      "stock": 13,
+      "price": 25.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c68",
+      "name": "Kit sheet metal",
+      "group": "Sheet metal",
+      "stock": 13,
+      "price": 460.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c69",
+      "name": "Kit de OBS 1",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c70",
+      "name": "Kit de OBS 2",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c71",
+      "name": "Kit de OBS 3",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c72",
+      "name": "Llave man auto",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c73",
+      "name": "FCC efecto Hall",
+      "group": "Componentes",
+      "stock": 60,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c74",
+      "name": "Sensor optico",
+      "group": "Componentes",
+      "stock": 15,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c75",
+      "name": "Maglock",
+      "group": "Componentes",
+      "stock": 9,
+      "price": 20.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c76",
+      "name": "Kit Luces COB",
+      "group": "Componentes",
+      "stock": 20,
+      "price": 10.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c77",
+      "name": "IBOX",
+      "group": "Componentes",
+      "stock": 1,
+      "price": 280.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c78",
+      "name": "Cable comunicacion",
+      "group": "Componentes",
+      "stock": 20,
+      "price": 5.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c79",
+      "name": "Cable grabado SPI",
+      "group": "Componentes",
+      "stock": 20.0,
+      "price": 10.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c80",
+      "name": "HAT comunicacion",
+      "group": "Componentes",
+      "stock": 10,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c81",
+      "name": "PCB IR OBS 2",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c82",
+      "name": "LED IR TX",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c83",
+      "name": "LED IR RX",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c84",
+      "name": "Burlete OBS 1",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c85",
+      "name": "Resorte OBS 1",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c86",
+      "name": "Resorte Maglock",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c87",
+      "name": "IGUS",
+      "group": "Componentes",
+      "stock": 10.0,
+      "price": 50.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c88",
+      "name": "Tornillo de bolas",
+      "group": "Componentes",
+      "stock": 10.0,
+      "price": 80.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c89",
+      "name": "Motor",
+      "group": "Componentes",
+      "stock": 13,
+      "price": 20.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c90",
+      "name": "Correa",
+      "group": "Componentes",
+      "stock": 10.0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c91",
+      "name": "Polea chica",
+      "group": "Componentes",
+      "stock": 10.0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c92",
+      "name": "Polea grande",
+      "group": "Componentes",
+      "stock": 10.0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c93",
+      "name": "Extensor UTP",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c94",
+      "name": "Ruedas TLCD",
+      "group": "Componentes",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c95",
+      "name": "TLCD",
+      "group": "Componentes",
+      "stock": 5,
+      "price": 218.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c96",
+      "name": "PCB TLCD",
+      "group": "Componentes",
+      "stock": 5,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c97",
+      "name": "Espuma",
+      "group": "Packaging",
+      "stock": 0,
+      "price": 66.66666667,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c98",
+      "name": "Kit de numeracion magnetica",
+      "group": "Packaging",
+      "stock": 0,
+      "price": 0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c99",
+      "name": "HDMI RPI3",
+      "group": "Componentes",
+      "stock": 14,
+      "price": 5.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c100",
+      "name": "HDMI RPI 4",
+      "group": "Componentes",
+      "stock": 20,
+      "price": 5.0,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "c101",
+      "name": "RPI 3",
+      "group": "Componentes",
+      "stock": 14.0,
+      "price": 93.33333333,
+      "provider": "",
+      "idcode": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1000",
+      "name": "Base Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 18.26,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1001",
+      "name": "Fte_mod_QR_Printer Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 28.7,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1002",
+      "name": "Pata Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 75.67,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1003",
+      "name": "Grampa_USB_C Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 2.17,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1004",
+      "name": "Tras_AIO Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 53.05,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1005",
+      "name": "Tapa_AIO Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 10.44,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1006",
+      "name": "Tras_mod_QR_Printer Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 2.61,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1007",
+      "name": "Cubre_inf_pata Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 4.17,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1008",
+      "name": "Percha_colgado Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 2.87,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1009",
+      "name": "Sop_QR Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 3.83,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1010",
+      "name": "Prensa_cable Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 1.3,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1011",
+      "name": "Enrollador_cable Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 3.04,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1012",
+      "name": "Soporte_point Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 12.0,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1013",
+      "name": "Cubre_cable_point Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 3.04,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1014",
+      "name": "Tapa_point Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 7.48,
+      "provider": "",
+      "notes": ""
+    },
+    {
+      "id": "cn1015",
+      "name": "Base_prensa_cable Negro",
+      "group": "Sheet metal",
+      "stock": 0,
+      "price": 0.24,
+      "provider": "",
+      "notes": ""
+    }
+  ],
+  "products": [
+    {
+      "id": "p1",
+      "name": "POS V7 Blanco",
+      "bom": [
+        {
+          "componentId": "c1",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c2",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c3",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c4",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c5",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c6",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c7",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c8",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c9",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c10",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c11",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c12",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c13",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c14",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c15",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c16",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c17",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c18",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c19",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c20",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c21",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c22",
+          "qty": 4.0,
+          "critical": false
+        },
+        {
+          "componentId": "c23",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c24",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c25",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c26",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c27",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c28",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c29",
+          "qty": 1.0,
+          "critical": false
+        }
+      ],
+      "terminados": 26,
+      "comprometidos": 0
+    },
+    {
+      "id": "p_pv7n",
+      "name": "POS V7 Negro",
+      "bom": [
+        {
+          "componentId": "cn1000",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1001",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1002",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1003",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1004",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1005",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1006",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1007",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1008",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1009",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1010",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1011",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1012",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1013",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1014",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "cn1015",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c17",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c18",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c19",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c20",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c21",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c22",
+          "qty": 4.0,
+          "critical": false
+        },
+        {
+          "componentId": "c23",
+          "qty": 1.0,
+          "critical": true
+        },
+        {
+          "componentId": "c24",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c25",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c26",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c27",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c28",
+          "qty": 1.0,
+          "critical": false
+        },
+        {
+          "componentId": "c29",
+          "qty": 1.0,
+          "critical": false
+        }
+      ],
+      "terminados": 0,
+      "comprometidos": 0
+    },
+    {
+      "id": "p2",
+      "name": "POS V6",
+      "bom": [
+        {
+          "componentId": "c30",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c31",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c32",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c33",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c21",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c22",
+          "qty": 4.0
+        },
+        {
+          "componentId": "c34",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c35",
+          "qty": 2.0
+        },
+        {
+          "componentId": "c36",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c37",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c38",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c39",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c27",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c40",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c41",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c42",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c43",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c44",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c45",
+          "qty": 2.0
+        },
+        {
+          "componentId": "c46",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c47",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c48",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c49",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c50",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c51",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c52",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c53",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c54",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c55",
+          "qty": 1.0
+        }
+      ],
+      "terminados": 4,
+      "comprometidos": 0
+    },
+    {
+      "id": "p3",
+      "name": "OPS 15\"",
+      "bom": [
+        {
+          "componentId": "c56",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c57",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c58",
+          "qty": 1.0
+        }
+      ],
+      "terminados": 0,
+      "comprometidos": 0
+    },
+    {
+      "id": "p4",
+      "name": "OPS 10\"",
+      "bom": [
+        {
+          "componentId": "c59",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c57",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c58",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c60",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c61",
+          "qty": 1.0
+        }
+      ],
+      "terminados": 0,
+      "comprometidos": 0
+    },
+    {
+      "id": "p5",
+      "name": "TUR V6",
+      "bom": [
+        {
+          "componentId": "c62",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c58",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c63",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c64",
+          "qty": 1.0
+        }
+      ],
+      "terminados": 0,
+      "comprometidos": 0
+    },
+    {
+      "id": "p6",
+      "name": "BOX V5",
+      "bom": [
+        {
+          "componentId": "c65",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c66",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c67",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c68",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c69",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c70",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c71",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c72",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c73",
+          "qty": 3.0
+        },
+        {
+          "componentId": "c74",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c75",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c76",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c77",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c78",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c79",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c80",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c81",
+          "qty": 2.0
+        },
+        {
+          "componentId": "c82",
+          "qty": 4.0
+        },
+        {
+          "componentId": "c83",
+          "qty": 4.0
+        },
+        {
+          "componentId": "c84",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c85",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c86",
+          "qty": 2.0
+        },
+        {
+          "componentId": "c87",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c88",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c89",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c90",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c91",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c92",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c38",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c93",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c94",
+          "qty": 2.0
+        },
+        {
+          "componentId": "c95",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c96",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c28",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c97",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c98",
+          "qty": 3.0
+        },
+        {
+          "componentId": "c99",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c100",
+          "qty": 1.0
+        },
+        {
+          "componentId": "c101",
+          "qty": 1.0
+        }
+      ],
+      "terminados": 0,
+      "comprometidos": 0
+    }
+  ],
+  "clientes": [
+    {
+      "name": "Grido",
+      "tiendas": [
+        "Barrancas",
+        "Calafate",
+        "Jujuy",
+        "Mar del plata Peatonal III",
+        "Puerto Madryn",
+        "Punta del este",
+        "Rosario",
+        "San carlos",
+        "Santiago del estero",
+        "Tucuman",
+        "Ushuaia",
+        "Villa allende"
+      ]
+    },
+    {
+      "name": "Falabella",
+      "tiendas": [
+        "Costanera",
+        "Vespucio",
+        "Viña"
+      ]
+    },
+    {
+      "name": "Sportline",
+      "tiendas": []
+    },
+    {
+      "name": "Fudo",
+      "tiendas": []
+    }
+  ],
+  "movements": [
+    {
+      "id": "m1784841058206TUR",
+      "ts": "2026-07-23T21:10:58.206805Z",
+      "type": "salida",
+      "desc": "1× TUR V6 (carga por agente)",
+      "deltas": [
+        {
+          "componentId": "c62",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c58",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c63",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c64",
+          "delta": -1.0
+        }
+      ]
+    },
+    {
+      "id": "m1784841058206OPS",
+      "ts": "2026-07-23T21:10:58.206805Z",
+      "type": "salida",
+      "desc": "1× OPS 10\" (carga por agente)",
+      "deltas": [
+        {
+          "componentId": "c59",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c57",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c58",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c60",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c61",
+          "delta": -1.0
+        }
+      ]
+    },
+    {
+      "id": "m1784841058206OPS",
+      "ts": "2026-07-23T21:10:58.206805Z",
+      "type": "salida",
+      "desc": "1× OPS 15\" (carga por agente)",
+      "deltas": [
+        {
+          "componentId": "c56",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c57",
+          "delta": -1.0
+        },
+        {
+          "componentId": "c58",
+          "delta": -1.0
+        }
+      ]
+    },
+    {
+      "id": "m1784841058206POS",
+      "ts": "2026-07-23T21:10:58.206805Z",
+      "type": "salida",
+      "desc": "2× POS V7 (carga por agente)",
+      "deltas": [
+        {
+          "componentId": "c1",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c2",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c3",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c4",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c5",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c6",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c7",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c8",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c9",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c10",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c11",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c12",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c13",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c14",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c15",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c16",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c17",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c18",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c19",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c20",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c21",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c22",
+          "delta": -8.0
+        },
+        {
+          "componentId": "c23",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c24",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c25",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c26",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c27",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c28",
+          "delta": -2.0
+        },
+        {
+          "componentId": "c29",
+          "delta": -2.0
+        }
+      ]
+    }
+  ],
+  "aliases": {
+    "totem kc50 blanco": "POS V7 Blanco",
+    "pos v7 blanco": "POS V7 Blanco",
+    "kc50 blanco": "POS V7 Blanco",
+    "totem kc50 negro": "POS V7 Negro",
+    "pos v7 negro": "POS V7 Negro",
+    "kc50 negro": "POS V7 Negro",
+    "ops": "OPS 15\"",
+    "check in": "OPS 10\"",
+    "check-in": "OPS 10\"",
+    "turnero": "TUR V6"
+  },
+  "settings": {
+    "rojo": 5,
+    "amarillo": 15
+  }
+}

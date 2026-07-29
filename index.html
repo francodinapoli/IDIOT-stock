@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablero de Stock · IDIOT</title>
+<style>
+:root{
+  --bg:#0f1216; --panel:#171b22; --panel2:#1e242d; --line:#2a323d;
+  --txt:#e7ecf2; --muted:#95a2b3; --accent:#4f9dff; --accent2:#7c5cff;
+  --ok:#37c98b; --warn:#f0b429; --bad:#ff5d6c; --chip:#242c37;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:14px}
+header{display:flex;align-items:center;gap:14px;padding:12px 20px;background:linear-gradient(90deg,#141922,#1a2130);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.3px}
+header .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.spacer{flex:1}
+button{font-family:inherit;font-size:13px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);padding:7px 12px;border-radius:8px;cursor:pointer;transition:.15s}
+button:hover{border-color:var(--accent);background:#232b36}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+button.primary:hover{background:#3f8bef}
+button.ghost{background:transparent}
+button.danger{border-color:#5a2a30;color:var(--bad)}
+button.danger:hover{background:#2a1a1d;border-color:var(--bad)}
+button.sm{padding:4px 8px;font-size:12px}
+.sync{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.dot.dirty{background:var(--warn)} .dot.clean{background:var(--ok)} .dot.err{background:var(--bad)}
+nav.tabs{display:flex;gap:4px;padding:0 20px;background:var(--panel);border-bottom:1px solid var(--line);overflow-x:auto}
+nav.tabs button{border:none;background:none;border-bottom:2px solid transparent;border-radius:0;padding:12px 14px;color:var(--muted);font-weight:600;white-space:nowrap}
+nav.tabs button.active{color:var(--txt);border-bottom-color:var(--accent)}
+main{padding:20px;max-width:1200px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{margin:0 0 4px;font-size:15px}
+.big{font-size:30px;font-weight:800;line-height:1.1}
+.card .sub{color:var(--muted);font-size:12px;margin-top:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi .v{font-size:24px;font-weight:800} .kpi .l{color:var(--muted);font-size:12px;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0;background:var(--panel)}
+tr:hover td{background:#191f28}
+.tablewrap{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:14px}
+.chip{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;background:var(--chip);color:var(--muted);border:1px solid var(--line)}
+.chip.shared{background:#1e3350;color:#9cc4ff;border-color:#31517f}
+.chip.g-Sheet{background:#2a2438;color:#c3a8ff}
+.chip.g-Comp{background:#1e3350;color:#9cc4ff}
+.chip.g-Pack{background:#233a2e;color:#8fe3b4}
+.stock-in{border:1px solid var(--line);background:var(--panel2);color:var(--txt);border-radius:7px;padding:5px 8px;width:80px;font-size:13px;font-family:inherit}
+.neg{color:var(--bad);font-weight:700}
+.low{color:var(--warn)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:12px;color:var(--muted);font-weight:600}
+select,input[type=text],input[type=number]{font-family:inherit;font-size:14px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:9px 11px;border-radius:8px;min-width:180px}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+.formcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+.formcard h3{margin:0 0 14px;font-size:15px}
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px;margin-bottom:16px;flex-wrap:wrap}
+.seg button{border:none;background:none;padding:7px 13px;border-radius:7px;color:var(--muted);font-weight:600}
+.seg button.active{background:var(--accent);color:#fff}
+.hint{color:var(--muted);font-size:12px;margin-top:4px}
+.muted{color:var(--muted)}
+.right{text-align:right}
+.small{font-size:12px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:520px;width:100%;max-height:88vh;overflow:auto}
+.modal h2{margin:0 0 6px;font-size:18px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--line);padding:11px 18px;border-radius:10px;z-index:80;opacity:0;transition:.3s;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.toast.show{opacity:1}
+.toast.ok{border-color:var(--ok)} .toast.err{border-color:var(--bad)}
+.log{font-size:13px}
+.log .t{color:var(--muted);font-size:12px}
+.badge-type{font-size:11px;padding:2px 7px;border-radius:6px;font-weight:700}
+.bt-out{background:#3a1f24;color:#ff9aa4} .bt-in{background:#1f3a2b;color:#8fe3b4} .bt-adj{background:#3a331f;color:#f0d68a} .bt-abm{background:#2a2438;color:#c3a8ff}
+a{color:var(--accent)}
+.flexbtns{display:flex;gap:8px;flex-wrap:wrap}
+.searchbar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.chatwrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.chatlog{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;min-height:340px;max-height:58vh;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:88%;padding:11px 14px;border-radius:12px;font-size:14px;line-height:1.5}
+.msg.bot{background:var(--panel2);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.user{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;align-self:flex-end;border-bottom-right-radius:4px;white-space:pre-wrap}
+.msg ul{margin:4px 0 0;padding-left:18px}
+.chatbar{display:flex;gap:8px;align-items:flex-end}
+.chatbar textarea{flex:1;font-family:inherit;font-size:14px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px 12px;resize:vertical;min-width:0}
+.chatbar textarea:focus{outline:none;border-color:var(--accent)}
+.st-rojo{background:#3a1f24 !important;color:#ff9aa4;border-color:#5a2a30 !important}
+.st-amar{background:#3a331f !important;color:#f0d68a;border-color:#5a4a1f !important}
+.st-verde{background:#16261d !important;color:#8fe3b4}
+.dotst{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle;margin-right:5px}
+.dotst.rojo{background:#ff5d6c}.dotst.amarillo{background:#f0b429}.dotst.verde{background:#37c98b}
+@media(max-width:600px){main{padding:14px}.big{font-size:24px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ID</div>
+  <h1>Tablero de Stock</h1>
+  <div class="spacer"></div>
+  <div class="sync" id="syncStatus"><span class="dot" id="syncDot"></span><span id="syncText">Local</span></div>
+  <button class="ghost sm" onclick="App.pullGitHub()">⬇ Traer de GitHub</button>
+  <button class="primary sm" onclick="App.pushGitHub()">⬆ Guardar en GitHub</button>
+  <button class="ghost sm" onclick="App.openConfig()">⚙</button>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="view"></main>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SEED = {"meta": {"currency": "USD", "updatedAt": "2026-07-24T12:46:13.415922Z", "version": 1}, "components": [{"id": "c1", "name": "Base Blanco", "group": "Sheet metal", "stock": 74.0, "price": 18.26, "provider": "", "idcode": "200103.0", "notes": ""}, {"id": "c2", "name": "Fte_mod_QR_Printer Blanco", "group": "Sheet metal", "stock": 74.0, "price": 28.7, "provider": "", "idcode": "200104.0", "notes": ""}, {"id": "c3", "name": "Pata Blanco", "group": "Sheet metal", "stock": 74.0, "price": 75.67, "provider": "", "idcode": "200105.0", "notes": ""}, {"id": "c4", "name": "Grampa_USB_C Blanco", "group": "Sheet metal", "stock": 74.0, "price": 2.17, "provider": "", "idcode": "200106.0", "notes": ""}, {"id": "c5", "name": "Tras_AIO Blanco", "group": "Sheet metal", "stock": 74.0, "price": 53.05, "provider": "", "idcode": "200107.0", "notes": ""}, {"id": "c6", "name": "Tapa_AIO Blanco", "group": "Sheet metal", "stock": 74.0, "price": 10.44, "provider": "", "idcode": "200108.0", "notes": ""}, {"id": "c7", "name": "Tras_mod_QR_Printer Blanco", "group": "Sheet metal", "stock": 74.0, "price": 2.61, "provider": "", "idcode": "200109.0", "notes": ""}, {"id": "c8", "name": "Cubre_inf_pata Blanco", "group": "Sheet metal", "stock": 74.0, "price": 4.17, "provider": "", "idcode": "200110.0", "notes": ""}, {"id": "c9", "name": "Percha_colgado Blanco", "group": "Sheet metal", "stock": 74.0, "price": 2.87, "provider": "", "idcode": "200111.0", "notes": ""}, {"id": "c10", "name": "Sop_QR Blanco", "group": "Sheet metal", "stock": 74.0, "price": 3.83, "provider": "", "idcode": "200112.0", "notes": ""}, {"id": "c11", "name": "Prensa_cable Blanco", "group": "Sheet metal", "stock": 74.0, "price": 1.3, "provider": "", "idcode": "200113.0", "notes": ""}, {"id": "c12", "name": "Enrollador_cable Blanco", "group": "Sheet metal", "stock": 74.0, "price": 3.04, "provider": "", "idcode": "200114.0", "notes": ""}, {"id": "c13", "name": "Soporte_point Blanco", "group": "Sheet metal", "stock": 74.0, "price": 12.0, "provider": "", "idcode": "200115.0", "notes": ""}, {"id": "c14", "name": "Cubre_cable_point Blanco", "group": "Sheet metal", "stock": 74.0, "price": 3.04, "provider": "", "idcode": "200116.0", "notes": ""}, {"id": "c15", "name": "Tapa_point Blanco", "group": "Sheet metal", "stock": 74.0, "price": 7.48, "provider": "", "idcode": "200117.0", "notes": ""}, {"id": "c16", "name": "Base_prensa_cable Blanco", "group": "Sheet metal", "stock": 74.0, "price": 0.24, "provider": "", "idcode": "200127.0", "notes": ""}, {"id": "c17", "name": "Zebra KC50 21,5\"", "group": "Componentes", "stock": 69.0, "price": 1275.0, "provider": "", "idcode": "400046.0", "notes": ""}, {"id": "c18", "name": "Fuente Zebra", "group": "Componentes", "stock": 69.0, "price": 0.0, "provider": "", "idcode": "450063.0", "notes": ""}, {"id": "c19", "name": "Thermal Printer EP-261C. Black. 24V", "group": "Componentes", "stock": 7.0, "price": 97.2, "provider": "", "idcode": "400047.0", "notes": ""}, {"id": "c20", "name": "Thermal Printer EP-261C. White. 24V", "group": "Componentes", "stock": 69.0, "price": 97.2, "provider": "", "idcode": "", "notes": ""}, {"id": "c21", "name": "Mini Wired 2D Barcode Scanner. Model GT-7700E", "group": "Componentes", "stock": 84.0, "price": 50.22, "provider": "Xincode", "idcode": "450010.0", "notes": ""}, {"id": "c22", "name": "Regaton Goma adhesivo tipo Macbook", "group": "Componentes", "stock": 296.0, "price": 0.3, "provider": "Dongguan Hengchang", "idcode": "400000.0", "notes": ""}, {"id": "c23", "name": "PCB Splitter V3", "group": "Componentes", "stock": 79.0, "price": 12.0, "provider": "", "idcode": "450046.0", "notes": ""}, {"id": "c24", "name": "Male to Male 5.5x2.5 Barrel Jack length 40cm, section 0.75mm2", "group": "Componentes", "stock": 84.0, "price": 0.6, "provider": "", "idcode": "450051.0", "notes": ""}, {"id": "c25", "name": "Cable Micro USB (right angle direction DOWN) a USB C 130mm de largo", "group": "Componentes", "stock": 89.0, "price": 3.6, "provider": "", "idcode": "", "notes": ""}, {"id": "c26", "name": "HUB USB A a C", "group": "Componentes", "stock": 18.0, "price": 10.39, "provider": "", "idcode": "", "notes": ""}, {"id": "c27", "name": "Kit Espuma", "group": "Packaging", "stock": 6.0, "price": 32, "provider": "Lab laser", "idcode": "", "notes": ""}, {"id": "c28", "name": "Caja", "group": "Packaging", "stock": 74.0, "price": 5.133333333, "provider": "Corrupe", "idcode": "", "notes": ""}, {"id": "c29", "name": "Kit envio", "group": "Packaging", "stock": 8.0, "price": 0.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c30", "name": "AIO 22\"_TD_215A_N5095_250nits", "group": "Componentes", "stock": 14, "price": 603.0, "provider": "Touch Wo", "idcode": "450079.0", "notes": ""}, {"id": "c31", "name": "AIO 22\"_TD_215A_N5095_1000nits", "group": "Componentes", "stock": 2.0, "price": 783.0, "provider": "Touch Wo", "idcode": "450078.0", "notes": ""}, {"id": "c32", "name": "Fuente Switching 12V 5A", "group": "Componentes", "stock": 93, "price": 16.09, "provider": "Touch Wo", "idcode": "450063.0", "notes": ""}, {"id": "c33", "name": "Impresora EP261N - Color White", "group": "Componentes", "stock": 18, "price": 97.2, "provider": "Cashino", "idcode": "450007.0", "notes": ""}, {"id": "c34", "name": "PCB Splitter V2", "group": "Componentes", "stock": 37, "price": 12.6, "provider": "PCB WAY", "idcode": "450046.0", "notes": ""}, {"id": "c35", "name": "Male to Male 5.5x2.5 Barrel Jack length 30cm, section 0.75mm2", "group": "Componentes", "stock": 26, "price": 1.05, "provider": "Goo Chain", "idcode": "450051.0", "notes": ""}, {"id": "c36", "name": "Cable Antena WIFI Pigtail: largo util : 60 cm / Pigtail Sma Macho R/p a Sma Hembra R/p - Bajo ruido Tipo de red RG-58 ; cable Coaxil", "group": "Componentes", "stock": 33, "price": 1.57, "provider": "Goo Chain", "idcode": "450047.0", "notes": ""}, {"id": "c37", "name": "Arandela Spacer antena wifi", "group": "Componentes", "stock": 14, "price": 0.05, "provider": "IDIOT", "idcode": "400045.0", "notes": ""}, {"id": "c38", "name": "Extensor USB", "group": "Componentes", "stock": 12, "price": 3.0, "provider": "", "idcode": "450029.0", "notes": ""}, {"id": "c39", "name": "Kit de envio", "group": "Packaging", "stock": 20.0, "price": 0.0, "provider": "IDIOT", "idcode": "-", "notes": ""}, {"id": "c40", "name": "Caja triple refrzado", "group": "Packaging", "stock": 16, "price": 5.333333333, "provider": "Corrupe SA (edgardo)", "idcode": "", "notes": ""}, {"id": "c41", "name": "POS V6_Gab Pantalla", "group": "Sheet metal", "stock": 16, "price": 52.03, "provider": "Juan manuel", "idcode": "200088B", "notes": ""}, {"id": "c42", "name": "POS V6_Tapa Trasera", "group": "Sheet metal", "stock": 16, "price": 29.78, "provider": "Juan manuel", "idcode": "200089A", "notes": ""}, {"id": "c43", "name": "POS V6_Pata", "group": "Sheet metal", "stock": 16, "price": 66.91, "provider": "Juan manuel", "idcode": "200090A", "notes": ""}, {"id": "c44", "name": "POS V6_Guarda Inf", "group": "Sheet metal", "stock": 16, "price": 7.11, "provider": "Juan manuel", "idcode": "200091B", "notes": ""}, {"id": "c45", "name": "POS V6_Grampa Fuente", "group": "Sheet metal", "stock": 42, "price": 2.5, "provider": "Juan manuel", "idcode": "200092A", "notes": ""}, {"id": "c46", "name": "POS V6_Prensa cable", "group": "Sheet metal", "stock": 14, "price": 1.26, "provider": "Juan manuel", "idcode": "200093A", "notes": ""}, {"id": "c47", "name": "POS V6_Frente Mod PR QR", "group": "Sheet metal", "stock": 14, "price": 40.23, "provider": "Juan manuel", "idcode": "200094B", "notes": ""}, {"id": "c48", "name": "POS V6_Tapa Mod PR QR", "group": "Sheet metal", "stock": 14, "price": 4.47, "provider": "Juan manuel", "idcode": "200095A", "notes": ""}, {"id": "c49", "name": "POS V6_Gancho colgado", "group": "Sheet metal", "stock": 14, "price": 3.74, "provider": "Juan manuel", "idcode": "200099.0", "notes": ""}, {"id": "c50", "name": "POS V6_Soporte Point", "group": "Sheet metal", "stock": 42.0, "price": 0.0, "provider": "Juan manuel", "idcode": "200100A", "notes": ""}, {"id": "c51", "name": "POS V6_Piso Base V2", "group": "Sheet metal", "stock": 14, "price": 23.2, "provider": "Juan manuel", "idcode": "200101A", "notes": ""}, {"id": "c52", "name": "POS V6_Enrollador_cable", "group": "Sheet metal", "stock": 14, "price": 3.46, "provider": "Juan manuel", "idcode": "200102.0", "notes": ""}, {"id": "c53", "name": "POS V6_Base_Point_Payway", "group": "Sheet metal", "stock": 28, "price": 8.17, "provider": "Juan manuel", "idcode": "200118.0", "notes": ""}, {"id": "c54", "name": "POS V6_Tapa_tras_point_Payway", "group": "Sheet metal", "stock": 29, "price": 2.77, "provider": "Juan manuel", "idcode": "200119.0", "notes": ""}, {"id": "c55", "name": "POS V6_Cubre_cable_point_payway", "group": "Sheet metal", "stock": 27, "price": 3.13, "provider": "Juan manuel", "idcode": "200120.0", "notes": ""}, {"id": "c56", "name": "OPS V6.3 15.6\"", "group": "Componentes", "stock": 47.0, "price": 390.6, "provider": "Touch WO", "idcode": "OPS V6.3", "notes": ""}, {"id": "c57", "name": "Base OPS", "group": "Componentes", "stock": 46.0, "price": 0.0, "provider": "Touch WO", "idcode": "400044.0", "notes": ""}, {"id": "c58", "name": "Fuente 12v 5a Huntkey", "group": "Componentes", "stock": 45.0, "price": 16.09, "provider": "Touch WO", "idcode": "450064.0", "notes": ""}, {"id": "c59", "name": "OPS V6.2 10.1\"", "group": "Componentes", "stock": 47.0, "price": 273.6, "provider": "Touch Wo", "idcode": "OPS V6.2", "notes": ""}, {"id": "c60", "name": "Kit Chapa Check-in", "group": "Sheet metal", "stock": 47.0, "price": 38.0, "provider": "Juan manuel", "idcode": "", "notes": ""}, {"id": "c61", "name": "Candado", "group": "Componentes", "stock": 25.0, "price": 5.0, "provider": "ML", "idcode": "", "notes": ""}, {"id": "c62", "name": "JD156B-N100", "group": "Componentes", "stock": 46.0, "price": 234.0, "provider": "ELEBAO", "idcode": "-", "notes": ""}, {"id": "c63", "name": "HDMI", "group": "Componentes", "stock": 46.0, "price": 0.0, "provider": "", "idcode": "-", "notes": ""}, {"id": "c64", "name": "Soporte VESA 75/100 o soporte", "group": "Componentes", "stock": 42.0, "price": 7.11, "provider": "LAB LASER", "idcode": "", "notes": ""}, {"id": "c65", "name": "Kit bancada", "group": "Sheet metal", "stock": 3.0, "price": 46.66666667, "provider": "", "idcode": "", "notes": ""}, {"id": "c66", "name": "Kit piezas torneadas", "group": "Sheet metal", "stock": 3.0, "price": 100, "provider": "", "idcode": "", "notes": ""}, {"id": "c67", "name": "Tapa trasera", "group": "Sheet metal", "stock": 13, "price": 25.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c68", "name": "Kit sheet metal", "group": "Sheet metal", "stock": 13, "price": 460.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c69", "name": "Kit de OBS 1", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c70", "name": "Kit de OBS 2", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c71", "name": "Kit de OBS 3", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c72", "name": "Llave man auto", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c73", "name": "FCC efecto Hall", "group": "Componentes", "stock": 60, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c74", "name": "Sensor optico", "group": "Componentes", "stock": 15, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c75", "name": "Maglock", "group": "Componentes", "stock": 9, "price": 20.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c76", "name": "Kit Luces COB", "group": "Componentes", "stock": 20, "price": 10.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c77", "name": "IBOX", "group": "Componentes", "stock": 1, "price": 280.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c78", "name": "Cable comunicacion", "group": "Componentes", "stock": 20, "price": 5.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c79", "name": "Cable grabado SPI", "group": "Componentes", "stock": 20.0, "price": 10.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c80", "name": "HAT comunicacion", "group": "Componentes", "stock": 10, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c81", "name": "PCB IR OBS 2", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c82", "name": "LED IR TX", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c83", "name": "LED IR RX", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c84", "name": "Burlete OBS 1", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c85", "name": "Resorte OBS 1", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c86", "name": "Resorte Maglock", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c87", "name": "IGUS", "group": "Componentes", "stock": 10.0, "price": 50.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c88", "name": "Tornillo de bolas", "group": "Componentes", "stock": 10.0, "price": 80.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c89", "name": "Motor", "group": "Componentes", "stock": 13, "price": 20.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c90", "name": "Correa", "group": "Componentes", "stock": 10.0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c91", "name": "Polea chica", "group": "Componentes", "stock": 10.0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c92", "name": "Polea grande", "group": "Componentes", "stock": 10.0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c93", "name": "Extensor UTP", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c94", "name": "Ruedas TLCD", "group": "Componentes", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c95", "name": "TLCD", "group": "Componentes", "stock": 5, "price": 218.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c96", "name": "PCB TLCD", "group": "Componentes", "stock": 5, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c97", "name": "Espuma", "group": "Packaging", "stock": 0, "price": 66.66666667, "provider": "", "idcode": "", "notes": ""}, {"id": "c98", "name": "Kit de numeracion magnetica", "group": "Packaging", "stock": 0, "price": 0, "provider": "", "idcode": "", "notes": ""}, {"id": "c99", "name": "HDMI RPI3", "group": "Componentes", "stock": 14, "price": 5.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c100", "name": "HDMI RPI 4", "group": "Componentes", "stock": 20, "price": 5.0, "provider": "", "idcode": "", "notes": ""}, {"id": "c101", "name": "RPI 3", "group": "Componentes", "stock": 14.0, "price": 93.33333333, "provider": "", "idcode": "", "notes": ""}, {"id": "cn1000", "name": "Base Negro", "group": "Sheet metal", "stock": 0, "price": 18.26, "provider": "", "notes": ""}, {"id": "cn1001", "name": "Fte_mod_QR_Printer Negro", "group": "Sheet metal", "stock": 0, "price": 28.7, "provider": "", "notes": ""}, {"id": "cn1002", "name": "Pata Negro", "group": "Sheet metal", "stock": 0, "price": 75.67, "provider": "", "notes": ""}, {"id": "cn1003", "name": "Grampa_USB_C Negro", "group": "Sheet metal", "stock": 0, "price": 2.17, "provider": "", "notes": ""}, {"id": "cn1004", "name": "Tras_AIO Negro", "group": "Sheet metal", "stock": 0, "price": 53.05, "provider": "", "notes": ""}, {"id": "cn1005", "name": "Tapa_AIO Negro", "group": "Sheet metal", "stock": 0, "price": 10.44, "provider": "", "notes": ""}, {"id": "cn1006", "name": "Tras_mod_QR_Printer Negro", "group": "Sheet metal", "stock": 0, "price": 2.61, "provider": "", "notes": ""}, {"id": "cn1007", "name": "Cubre_inf_pata Negro", "group": "Sheet metal", "stock": 0, "price": 4.17, "provider": "", "notes": ""}, {"id": "cn1008", "name": "Percha_colgado Negro", "group": "Sheet metal", "stock": 0, "price": 2.87, "provider": "", "notes": ""}, {"id": "cn1009", "name": "Sop_QR Negro", "group": "Sheet metal", "stock": 0, "price": 3.83, "provider": "", "notes": ""}, {"id": "cn1010", "name": "Prensa_cable Negro", "group": "Sheet metal", "stock": 0, "price": 1.3, "provider": "", "notes": ""}, {"id": "cn1011", "name": "Enrollador_cable Negro", "group": "Sheet metal", "stock": 0, "price": 3.04, "provider": "", "notes": ""}, {"id": "cn1012", "name": "Soporte_point Negro", "group": "Sheet metal", "stock": 0, "price": 12.0, "provider": "", "notes": ""}, {"id": "cn1013", "name": "Cubre_cable_point Negro", "group": "Sheet metal", "stock": 0, "price": 3.04, "provider": "", "notes": ""}, {"id": "cn1014", "name": "Tapa_point Negro", "group": "Sheet metal", "stock": 0, "price": 7.48, "provider": "", "notes": ""}, {"id": "cn1015", "name": "Base_prensa_cable Negro", "group": "Sheet metal", "stock": 0, "price": 0.24, "provider": "", "notes": ""}], "products": [{"id": "p1", "name": "POS V7 Blanco", "bom": [{"componentId": "c1", "qty": 1.0, "critical": true}, {"componentId": "c2", "qty": 1.0, "critical": true}, {"componentId": "c3", "qty": 1.0, "critical": true}, {"componentId": "c4", "qty": 1.0, "critical": true}, {"componentId": "c5", "qty": 1.0, "critical": true}, {"componentId": "c6", "qty": 1.0, "critical": true}, {"componentId": "c7", "qty": 1.0, "critical": true}, {"componentId": "c8", "qty": 1.0, "critical": true}, {"componentId": "c9", "qty": 1.0, "critical": true}, {"componentId": "c10", "qty": 1.0, "critical": true}, {"componentId": "c11", "qty": 1.0, "critical": true}, {"componentId": "c12", "qty": 1.0, "critical": true}, {"componentId": "c13", "qty": 1.0, "critical": true}, {"componentId": "c14", "qty": 1.0, "critical": true}, {"componentId": "c15", "qty": 1.0, "critical": true}, {"componentId": "c16", "qty": 1.0, "critical": true}, {"componentId": "c17", "qty": 1.0, "critical": true}, {"componentId": "c18", "qty": 1.0, "critical": false}, {"componentId": "c19", "qty": 1.0, "critical": false}, {"componentId": "c20", "qty": 1.0, "critical": true}, {"componentId": "c21", "qty": 1.0, "critical": false}, {"componentId": "c22", "qty": 4.0, "critical": false}, {"componentId": "c23", "qty": 1.0, "critical": true}, {"componentId": "c24", "qty": 1.0, "critical": false}, {"componentId": "c25", "qty": 1.0, "critical": false}, {"componentId": "c26", "qty": 1.0, "critical": false}, {"componentId": "c27", "qty": 1.0, "critical": false}, {"componentId": "c28", "qty": 1.0, "critical": false}, {"componentId": "c29", "qty": 1.0, "critical": false}], "terminados": 26, "comprometidos": 0}, {"id": "p_pv7n", "name": "POS V7 Negro", "bom": [{"componentId": "cn1000", "qty": 1.0, "critical": true}, {"componentId": "cn1001", "qty": 1.0, "critical": true}, {"componentId": "cn1002", "qty": 1.0, "critical": true}, {"componentId": "cn1003", "qty": 1.0, "critical": true}, {"componentId": "cn1004", "qty": 1.0, "critical": true}, {"componentId": "cn1005", "qty": 1.0, "critical": true}, {"componentId": "cn1006", "qty": 1.0, "critical": true}, {"componentId": "cn1007", "qty": 1.0, "critical": true}, {"componentId": "cn1008", "qty": 1.0, "critical": true}, {"componentId": "cn1009", "qty": 1.0, "critical": true}, {"componentId": "cn1010", "qty": 1.0, "critical": true}, {"componentId": "cn1011", "qty": 1.0, "critical": true}, {"componentId": "cn1012", "qty": 1.0, "critical": true}, {"componentId": "cn1013", "qty": 1.0, "critical": true}, {"componentId": "cn1014", "qty": 1.0, "critical": true}, {"componentId": "cn1015", "qty": 1.0, "critical": true}, {"componentId": "c17", "qty": 1.0, "critical": true}, {"componentId": "c18", "qty": 1.0, "critical": false}, {"componentId": "c19", "qty": 1.0, "critical": true}, {"componentId": "c20", "qty": 1.0, "critical": false}, {"componentId": "c21", "qty": 1.0, "critical": false}, {"componentId": "c22", "qty": 4.0, "critical": false}, {"componentId": "c23", "qty": 1.0, "critical": true}, {"componentId": "c24", "qty": 1.0, "critical": false}, {"componentId": "c25", "qty": 1.0, "critical": false}, {"componentId": "c26", "qty": 1.0, "critical": false}, {"componentId": "c27", "qty": 1.0, "critical": false}, {"componentId": "c28", "qty": 1.0, "critical": false}, {"componentId": "c29", "qty": 1.0, "critical": false}], "terminados": 0, "comprometidos": 0}, {"id": "p2", "name": "POS V6", "bom": [{"componentId": "c30", "qty": 1.0}, {"componentId": "c31", "qty": 1.0}, {"componentId": "c32", "qty": 1.0}, {"componentId": "c33", "qty": 1.0}, {"componentId": "c21", "qty": 1.0}, {"componentId": "c22", "qty": 4.0}, {"componentId": "c34", "qty": 1.0}, {"componentId": "c35", "qty": 2.0}, {"componentId": "c36", "qty": 1.0}, {"componentId": "c37", "qty": 1.0}, {"componentId": "c38", "qty": 1.0}, {"componentId": "c39", "qty": 1.0}, {"componentId": "c27", "qty": 1.0}, {"componentId": "c40", "qty": 1.0}, {"componentId": "c41", "qty": 1.0}, {"componentId": "c42", "qty": 1.0}, {"componentId": "c43", "qty": 1.0}, {"componentId": "c44", "qty": 1.0}, {"componentId": "c45", "qty": 2.0}, {"componentId": "c46", "qty": 1.0}, {"componentId": "c47", "qty": 1.0}, {"componentId": "c48", "qty": 1.0}, {"componentId": "c49", "qty": 1.0}, {"componentId": "c50", "qty": 1.0}, {"componentId": "c51", "qty": 1.0}, {"componentId": "c52", "qty": 1.0}, {"componentId": "c53", "qty": 1.0}, {"componentId": "c54", "qty": 1.0}, {"componentId": "c55", "qty": 1.0}], "terminados": 4, "comprometidos": 0}, {"id": "p3", "name": "OPS 15\"", "bom": [{"componentId": "c56", "qty": 1.0}, {"componentId": "c57", "qty": 1.0}, {"componentId": "c58", "qty": 1.0}], "terminados": 0, "comprometidos": 0}, {"id": "p4", "name": "OPS 10\"", "bom": [{"componentId": "c59", "qty": 1.0}, {"componentId": "c57", "qty": 1.0}, {"componentId": "c58", "qty": 1.0}, {"componentId": "c60", "qty": 1.0}, {"componentId": "c61", "qty": 1.0}], "terminados": 0, "comprometidos": 0}, {"id": "p5", "name": "TUR V6", "bom": [{"componentId": "c62", "qty": 1.0}, {"componentId": "c58", "qty": 1.0}, {"componentId": "c63", "qty": 1.0}, {"componentId": "c64", "qty": 1.0}], "terminados": 0, "comprometidos": 0}, {"id": "p6", "name": "BOX V5", "bom": [{"componentId": "c65", "qty": 1.0}, {"componentId": "c66", "qty": 1.0}, {"componentId": "c67", "qty": 1.0}, {"componentId": "c68", "qty": 1.0}, {"componentId": "c69", "qty": 1.0}, {"componentId": "c70", "qty": 1.0}, {"componentId": "c71", "qty": 1.0}, {"componentId": "c72", "qty": 1.0}, {"componentId": "c73", "qty": 3.0}, {"componentId": "c74", "qty": 1.0}, {"componentId": "c75", "qty": 1.0}, {"componentId": "c76", "qty": 1.0}, {"componentId": "c77", "qty": 1.0}, {"componentId": "c78", "qty": 1.0}, {"componentId": "c79", "qty": 1.0}, {"componentId": "c80", "qty": 1.0}, {"componentId": "c81", "qty": 2.0}, {"componentId": "c82", "qty": 4.0}, {"componentId": "c83", "qty": 4.0}, {"componentId": "c84", "qty": 1.0}, {"componentId": "c85", "qty": 1.0}, {"componentId": "c86", "qty": 2.0}, {"componentId": "c87", "qty": 1.0}, {"componentId": "c88", "qty": 1.0}, {"componentId": "c89", "qty": 1.0}, {"componentId": "c90", "qty": 1.0}, {"componentId": "c91", "qty": 1.0}, {"componentId": "c92", "qty": 1.0}, {"componentId": "c38", "qty": 1.0}, {"componentId": "c93", "qty": 1.0}, {"componentId": "c94", "qty": 2.0}, {"componentId": "c95", "qty": 1.0}, {"componentId": "c96", "qty": 1.0}, {"componentId": "c28", "qty": 1.0}, {"componentId": "c97", "qty": 1.0}, {"componentId": "c98", "qty": 3.0}, {"componentId": "c99", "qty": 1.0}, {"componentId": "c100", "qty": 1.0}, {"componentId": "c101", "qty": 1.0}], "terminados": 0, "comprometidos": 0}], "clientes": [{"name": "Grido", "tiendas": ["Barrancas", "Calafate", "Jujuy", "Mar del plata Peatonal III", "Puerto Madryn", "Punta del este", "Rosario", "San carlos", "Santiago del estero", "Tucuman", "Ushuaia", "Villa allende"]}, {"name": "Falabella", "tiendas": ["Costanera", "Vespucio", "Viña"]}, {"name": "Sportline", "tiendas": []}, {"name": "Fudo", "tiendas": []}], "movements": [{"id": "m1784841058206TUR", "ts": "2026-07-23T21:10:58.206805Z", "type": "salida", "desc": "1× TUR V6 (carga por agente)", "deltas": [{"componentId": "c62", "delta": -1.0}, {"componentId": "c58", "delta": -1.0}, {"componentId": "c63", "delta": -1.0}, {"componentId": "c64", "delta": -1.0}]}, {"id": "m1784841058206OPS", "ts": "2026-07-23T21:10:58.206805Z", "type": "salida", "desc": "1× OPS 10\" (carga por agente)", "deltas": [{"componentId": "c59", "delta": -1.0}, {"componentId": "c57", "delta": -1.0}, {"componentId": "c58", "delta": -1.0}, {"componentId": "c60", "delta": -1.0}, {"componentId": "c61", "delta": -1.0}]}, {"id": "m1784841058206OPS", "ts": "2026-07-23T21:10:58.206805Z", "type": "salida", "desc": "1× OPS 15\" (carga por agente)", "deltas": [{"componentId": "c56", "delta": -1.0}, {"componentId": "c57", "delta": -1.0}, {"componentId": "c58", "delta": -1.0}]}, {"id": "m1784841058206POS", "ts": "2026-07-23T21:10:58.206805Z", "type": "salida", "desc": "2× POS V7 (carga por agente)", "deltas": [{"componentId": "c1", "delta": -2.0}, {"componentId": "c2", "delta": -2.0}, {"componentId": "c3", "delta": -2.0}, {"componentId": "c4", "delta": -2.0}, {"componentId": "c5", "delta": -2.0}, {"componentId": "c6", "delta": -2.0}, {"componentId": "c7", "delta": -2.0}, {"componentId": "c8", "delta": -2.0}, {"componentId": "c9", "delta": -2.0}, {"componentId": "c10", "delta": -2.0}, {"componentId": "c11", "delta": -2.0}, {"componentId": "c12", "delta": -2.0}, {"componentId": "c13", "delta": -2.0}, {"componentId": "c14", "delta": -2.0}, {"componentId": "c15", "delta": -2.0}, {"componentId": "c16", "delta": -2.0}, {"componentId": "c17", "delta": -2.0}, {"componentId": "c18", "delta": -2.0}, {"componentId": "c19", "delta": -2.0}, {"componentId": "c20", "delta": -2.0}, {"componentId": "c21", "delta": -2.0}, {"componentId": "c22", "delta": -8.0}, {"componentId": "c23", "delta": -2.0}, {"componentId": "c24", "delta": -2.0}, {"componentId": "c25", "delta": -2.0}, {"componentId": "c26", "delta": -2.0}, {"componentId": "c27", "delta": -2.0}, {"componentId": "c28", "delta": -2.0}, {"componentId": "c29", "delta": -2.0}]}], "aliases": {"totem kc50 blanco": "POS V7 Blanco", "pos v7 blanco": "POS V7 Blanco", "kc50 blanco": "POS V7 Blanco", "totem kc50 negro": "POS V7 Negro", "pos v7 negro": "POS V7 Negro", "kc50 negro": "POS V7 Negro", "ops": "OPS 15\"", "check in": "OPS 10\"", "check-in": "OPS 10\"", "turnero": "TUR V6"}, "settings": {"rojo": 5, "amarillo": 15}};
+
+const App = {
+  state:null, active:'asistente', activeProduct:null, compFilter:'', compGroup:'', dirty:false,
+  chat:[], _pending:{},
+  cfg:{owner:'',repo:'',branch:'main',path:'data.json',token:'',sha:''},
+
+  // ---------- persistence ----------
+  async init(){
+    const c=localStorage.getItem('stockCfg'); if(c) this.cfg=Object.assign(this.cfg,JSON.parse(c));
+    let local=null, remote=null;
+    const s=localStorage.getItem('stockData'); if(s){ try{ local=JSON.parse(s); }catch(e){} }
+    try{ const r=await fetch('data.json',{cache:'no-store'}); if(r.ok) remote=await r.json(); }catch(e){}
+    const ts=d=>{ try{ return new Date(d&&d.meta&&d.meta.updatedAt||0).getTime()||0; }catch(e){ return 0; } };
+    const seed=JSON.parse(JSON.stringify(SEED));
+    let cands=[remote,local,seed].filter(Boolean);
+    const withP=cands.filter(d=>d.products&&d.products.length);
+    let data=(withP.length?withP:cands).sort((a,b)=>ts(b)-ts(a))[0];
+    this.state=data; localStorage.setItem('stockData',JSON.stringify(this.state));
+    this.activeProduct=this.state.products[0]?this.state.products[0].id:null;
+    if(!this.chat.length) this.botSay('👋 Soy tu asistente de stock. Tirame los movimientos en texto y yo actualizo todo el tablero por vos.<br><br>Ejemplos:<br>• <i>Tótems KC50: 2, Ops: 1, Check In: 1, Turnero: 1</i><br>• <i>salieron 3 turneros a Grido Rosario</i><br>• <i>entraron 50 Fuente Huntkey</i><br>• <i>se rompieron 2 scanners</i>');
+    this.renderTabs(); this.render(); this.updateSync(); this.after_render_chat();
+  },
+  save(){ this.state.meta.updatedAt=new Date().toISOString(); localStorage.setItem('stockData',JSON.stringify(this.state)); this.dirty=true; this.updateSync(); },
+  saveCfg(){ localStorage.setItem('stockCfg',JSON.stringify(this.cfg)); },
+  updateSync(){
+    const dot=document.getElementById('syncDot'), t=document.getElementById('syncText');
+    if(!this.cfg.token){ dot.className='dot'; t.textContent='Solo local (sin GitHub)'; return; }
+    if(this.dirty){ dot.className='dot dirty'; t.textContent='Cambios sin guardar en GitHub'; }
+    else { dot.className='dot clean'; t.textContent='Sincronizado con GitHub'; }
+  },
+
+  // ---------- helpers ----------
+  comp(id){ return this.state.components.find(c=>c.id===id); },
+  prod(id){ return this.state.products.find(p=>p.id===id); },
+  usedIn(compId){ return this.state.products.filter(p=>p.bom.some(b=>b.componentId===compId)).map(p=>p.name); },
+  canShip(p){ if(!p.bom.length) return 0; const cr=p.bom.filter(b=>b.critical); const use=cr.length?cr:p.bom; let m=Infinity; use.forEach(b=>{const c=this.comp(b.componentId); if(c&&b.qty>0) m=Math.min(m,Math.floor((c.stock||0)/b.qty));}); return m===Infinity?0:m; },
+  limitante(p){ const cr=p.bom.filter(b=>b.critical); const use=cr.length?cr:p.bom; let best=null,m=Infinity; use.forEach(b=>{const c=this.comp(b.componentId); if(c&&b.qty>0){const cap=Math.floor((c.stock||0)/b.qty); if(cap<m){m=cap;best=c;}}}); return best; },
+  capacidad(p){ return (p.terminados||0)+this.canShip(p); },
+  paraVenta(p){ return this.capacidad(p)-(p.comprometidos||0); },
+  invValue(){ return this.state.components.reduce((s,c)=>s+(c.stock||0)*(c.price||0),0); },
+  sem(c){ const g=this.state.settings||{rojo:5,amarillo:15}; const r=(c.min!=null?c.min:g.rojo), w=(c.warn!=null?c.warn:g.amarillo); const s=c.stock||0; return s<=r?'rojo':(s<=w?'amarillo':'verde'); },
+  semCls(c){ return {rojo:'st-rojo',amarillo:'st-amar',verde:'st-verde'}[this.sem(c)]; },
+  semSug(c){ const g=this.state.settings||{rojo:5,amarillo:15}; const w=(c.warn!=null?c.warn:g.amarillo); return Math.max(0,(w+1)-(c.stock||0)); },
+  pedirList(){ const o={rojo:0,amarillo:1}; return this.state.components.filter(c=>this.sem(c)!=='verde').sort((a,b)=>o[this.sem(a)]-o[this.sem(b)]||(a.stock||0)-(b.stock||0)); },
+  gcls(g){ return g&&g.toLowerCase().startsWith('sheet')?'g-Sheet':g&&g.toLowerCase().startsWith('pack')?'g-Pack':'g-Comp'; },
+  money(n){ return '$'+(n||0).toLocaleString('en-US',{maximumFractionDigits:0}); },
+  esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); },
+
+  // ---------- tabs / routing ----------
+  renderTabs(){
+    const tabs=[['asistente','🤖 Asistente'],['resumen','Resumen'],['productos','Productos'],['componentes','Componentes'],['pedir','🛒 Para pedir'],['movimientos','Movimientos'],['historial','Historial']];
+    document.getElementById('tabs').innerHTML=tabs.map(([k,l])=>`<button class="${this.active===k?'active':''}" onclick="App.go('${k}')">${l}</button>`).join('');
+  },
+  go(k){ this.active=k; this.renderTabs(); this.render(); },
+  render(){ const v=document.getElementById('view'); v.innerHTML=this['view_'+this.active]?this['view_'+this.active]():''; if(this.active==='asistente') this.after_render_chat(); },
+
+  // ---------- ASISTENTE ----------
+  na(s){ return (s==null?'':String(s)).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim(); },
+  aliasMap(){
+    const m={'totem kc50 blanco':'POS V7 Blanco','pos v7 blanco':'POS V7 Blanco','kc50 blanco':'POS V7 Blanco',
+      'totem kc50 negro':'POS V7 Negro','pos v7 negro':'POS V7 Negro','kc50 negro':'POS V7 Negro',
+      'ops':'OPS 15"','ops 15':'OPS 15"','ops15':'OPS 15"',
+      'check in':'OPS 10"','check-in':'OPS 10"','checkin':'OPS 10"','ops 10':'OPS 10"','ops10':'OPS 10"',
+      'turnero':'TUR V6','turneros':'TUR V6','tur':'TUR V6','tur v6':'TUR V6',
+      'pos v6':'POS V6','box':'BOX V5','box v5':'BOX V5'};
+    if(this.state.aliases) for(const k in this.state.aliases) m[this.na(k)]=this.state.aliases[k];
+    return m;
+  },
+  prodByName(n){ return this.state.products.find(p=>p.name===n); },
+  resolveProductScored(name){
+    const n=this.na(name); if(!n) return {p:null,s:0}; const m=this.aliasMap();
+    let best=null,bs=0;
+    for(const k in m){ const kn=this.na(k); if(!kn) continue; let s=0;
+      if(n===kn) s=1000;
+      else if(n.startsWith(kn+' ')||n.endsWith(' '+kn)||n.includes(' '+kn+' ')) s=kn.length+10;
+      if(s>bs){bs=s;best=this.prodByName(m[k]);} }
+    this.state.products.forEach(p=>{const pn=this.na(p.name); let s=0; if(n===pn) s=1000; else if(n.includes(pn)||pn.includes(n)) s=Math.min(pn.length,n.length); if(s>bs){bs=s;best=p;}});
+    return {p:best,s:bs};
+  },
+  resolveComponentScored(name){
+    const n=this.na(name); if(!n) return {c:null,s:0};
+    const qwords=n.split(' ').map(w=>w.replace(/s$/,'')).filter(w=>w.length>2);
+    let best=null,bs=0;
+    this.state.components.forEach(c=>{ const cn=this.na(c.name); let s=0;
+      if(n===cn) s=300; else if(n.includes(cn)||cn.includes(n)) s=Math.min(cn.length,n.length)+100;
+      else qwords.forEach(w=>{ if(cn.includes(w)) s+=w.length; });
+      if(s>bs){bs=s;best=c;} });
+    return bs>=3?{c:best,s:bs}:{c:null,s:0};
+  },
+  resolveProduct(name){ return this.resolveProductScored(name).p; },
+  resolveComponent(name){ return this.resolveComponentScored(name).c; },
+  detectDir(t){ t=this.na(t);
+    if(/(arme|armar|armamos|armaron|fabri|ensambl|produj|produc|monte|montar|monto)/.test(t)) return 'armar';
+    if(/(vend|reserv|comprom|orden|pedid)/.test(t)) return 'vender';
+    if(/(envi|despach|salio|salieron|sali|mand|entreg|remit)/.test(t)) return 'enviar';
+    if(/(entr|ingres|lleg|recib|compr|repuso|repon|sum|agreg|carg|\+)/.test(t)) return 'entrada';
+    if(/(romp|rotur|descart|perd|ajust|dana|dano|falla)/.test(t)) return 'ajuste';
+    if(/(rest|saca|saco|saque|quit|menos|baj)/.test(t)) return 'restar';
+    return 'enviar';
+  },
+  parseText(text){
+    const gdir=this.detectDir(text); const items=[];
+    const colon=[...text.matchAll(/([\p{L}0-9".\/\- ]+?)\s*[:=]\s*(-?\d+(?:[.,]\d+)?)/giu)];
+    if(colon.length){
+      colon.forEach(mm=>items.push({raw:mm[0].trim(),name:mm[1].trim(),qty:parseFloat(mm[2].replace(',','.')),dir:gdir,cliente:'',tienda:''}));
+    } else {
+      text.split(/[\n;]+/).forEach(line=>{ line=line.trim(); if(!line) return;
+        const num=line.match(/-?\d+(?:[.,]\d+)?/); if(!num) return; const qty=parseFloat(num[0].replace(',','.'));
+        let name=line,cliente='',tienda='';
+        const am=line.match(/(?:\ba\b|\bpara\b|→|->)\s+(.+)$/i);
+        if(am){ const rest=am[1].trim(); const cli=this.state.clientes.find(c=>this.na(rest).includes(this.na(c.name)));
+          if(cli){cliente=cli.name; tienda=rest.replace(new RegExp(cli.name,'i'),'').replace(/^[,\s]+/,'').trim();} else tienda=rest;
+          name=line.slice(0,am.index); }
+        name=name.replace(/-?\d+(?:[.,]\d+)?/,'').replace(/\b(salio|salieron|envie|envio|enviaron|entro|entraron|ingreso|se|rompio|rompieron|unidad|unidades|u)\b/gi,'').trim();
+        items.push({raw:line,name,qty,dir:this.detectDir(line),cliente,tienda}); });
+    }
+    items.forEach(it=>{
+      const nn=this.na(it.name);
+      if((nn.includes('totem')||nn.includes('pos v7'))&&!/blanc|negr/.test(nn)){ it.needsColor=true; it.target=null; it.kind=null; return; }
+      const pr=this.resolveProductScored(it.name), cr=this.resolveComponentScored(it.name);
+      const prodVerb=(it.dir==='armar'||it.dir==='vender'||it.dir==='enviar');
+      const compVerb=(it.dir==='entrada'||it.dir==='ajuste'||it.dir==='restar');
+      let kind=null,target=null;
+      if(prodVerb && pr.p){kind='producto';target=pr.p;}
+      else if(compVerb && cr.c){kind='componente';target=cr.c;}
+      else if(pr.p && cr.c){ if(cr.s>pr.s){kind='componente';target=cr.c;} else {kind='producto';target=pr.p;} }
+      else if(pr.p){kind='producto';target=pr.p;}
+      else if(cr.c){kind='componente';target=cr.c;}
+      it.target=target; it.kind=kind;
+    });
+    return items;
+  },
+  view_asistente(){
+    const msgs=this.chat.map(m=>`<div class="msg ${m.role}">${m.html}</div>`).join('');
+    return `<div class="chatwrap">
+      <div class="chatlog" id="chatlog">${msgs}</div>
+      <div class="chatbar">
+        <textarea id="asstInput" rows="2" placeholder="Escribí los movimientos… (Enter envía, Shift+Enter salto de línea)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();App.assistantSend();}"></textarea>
+        <button class="primary" onclick="App.assistantSend()">Enviar</button>
+      </div>
+      <div class="hint" style="padding:0 4px">Entiende envíos (descuenta por BOM), entradas (suma) y roturas/ajustes. Reconoce tus alias: Tótem KC50, Ops, Check In, Turnero. Siempre te muestra qué entendió y te pide confirmar antes de tocar el stock.</div>
+    </div>`;
+  },
+  after_render_chat(){ const l=document.getElementById('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=document.getElementById('asstInput'); if(i&&this.active==='asistente') i.focus(); },
+  botSay(html){ this.chat.push({role:'bot',html}); },
+  rechat(){ this.render(); this.after_render_chat(); },
+  assistantSend(){
+    const inp=document.getElementById('asstInput'); const text=(inp.value||'').trim(); if(!text) return;
+    this.chat.push({role:'user',html:this.esc(text)});
+    const items=this.parseText(text);
+    if(!items.length){ this.botSay('No pude interpretar ningún movimiento. Probá con "Producto: cantidad" o "salieron 3 turneros a Grido Rosario".'); inp.value=''; this.rechat(); return; }
+    const pid='pend'+Date.now(); this._pending[pid]=items;
+    const rows=items.map(it=>{
+      if(!it.target) return `<tr><td>⚠️</td><td>${it.needsColor?'POS V7 tiene 2 versiones — aclarame <b>Blanco</b> o <b>Negro</b>':'No reconocí "<b>'+this.esc(it.name)+'</b>"'}</td></tr>`;
+      let lbl,sign,extra='';
+      if(it.kind==='producto'){
+        if(it.dir==='armar'){lbl='Armar';sign='+';extra=' → Terminados (resta componentes)';}
+        else if(it.dir==='vender'){lbl='Vender/Reservar';sign='+';extra=' → Comprometidos';}
+        else {lbl='Enviar';sign='−';extra=' (de Terminados)';}
+      } else {
+        if(it.dir==='entrada'){lbl='Entrada comp.';sign='+';}
+        else if(it.dir==='ajuste'){lbl='Ajuste comp.';sign=it.qty<0?'−':'+';}
+        else {lbl='Resta comp.';sign='−';}
+      }
+      const q=Math.abs(it.qty);
+      return `<tr><td class="muted small">${lbl}</td><td><b>${sign}${q}</b> ${this.esc(it.target.name)} <span class="chip">${it.kind}</span>${extra}${it.cliente?' → '+this.esc(it.cliente)+(it.tienda?' '+this.esc(it.tienda):''):''}</td></tr>`;
+    }).join('');
+    const anyok=items.some(it=>it.target);
+    this.botSay(`Entendí esto:<div class="tablewrap" style="margin:8px 0"><table><tbody>${rows}</tbody></table></div>${anyok?`<button class="primary sm" onclick="App.assistantApply('${pid}')">✓ Aplicar al stock</button> <button class="sm" onclick="App.assistantCancel('${pid}')">Cancelar</button>`:'No reconocí ningún producto/componente. Revisá el nombre.'}`);
+    inp.value=''; this.rechat();
+  },
+  assistantCancel(pid){ delete this._pending[pid]; this.botSay('Cancelado, no toqué nada.'); this.rechat(); },
+  assistantApply(pid){
+    const items=this._pending[pid]; if(!items){ this.botSay('Ese movimiento ya se procesó.'); this.rechat(); return; }
+    const done=[],warn=[];
+    items.forEach(it=>{
+      if(!it.target){ warn.push(it.needsColor?'POS V7: aclarame Blanco o Negro':('No reconocí "'+it.name+'"')); return; }
+      const qty=Math.abs(it.qty);
+      const cliTxt=it.cliente?' → '+it.cliente+(it.tienda?' '+it.tienda:''):'';
+      if(it.kind==='producto'){
+        const p=it.target;
+        if(it.dir==='armar'){
+          const deltas=[]; const neg=p.bom.filter(b=>{const c=this.comp(b.componentId);return c&&(c.stock||0)-qty*b.qty<0;});
+          if(neg.length) warn.push(`Armás ${qty} ${p.name} pero faltan componentes (quedan negativos)`);
+          p.bom.forEach(b=>{const c=this.comp(b.componentId); if(c){c.stock=(c.stock||0)-qty*b.qty; deltas.push({componentId:c.id,delta:-qty*b.qty});}});
+          p.terminados=(p.terminados||0)+qty; deltas.push({productId:p.id,field:'terminados',delta:qty});
+          this.addMovement('armar',`Armé ${qty}× ${p.name} (asistente)`,deltas);
+          done.push(`Armé ${qty} ${p.name} · terminados ${p.terminados} · puedo armar ${this.canShip(p)} más`);
+        } else if(it.dir==='vender'){
+          p.comprometidos=(p.comprometidos||0)+qty;
+          this.addMovement('vender',`Vendí/reservé ${qty}× ${p.name}${cliTxt} (asistente)`,[{productId:p.id,field:'comprometidos',delta:qty}]);
+          done.push(`Reservé ${qty} ${p.name} · comprometidos ${p.comprometidos} · para la venta ${this.paraVenta(p)}`);
+        } else {
+          const before=p.terminados||0; if(before<qty) warn.push(`Enviás ${qty} ${p.name} pero solo tenés ${before} armados`);
+          const cComp=Math.min(qty,p.comprometidos||0); const deltas=[{productId:p.id,field:'terminados',delta:-qty}];
+          p.terminados=(p.terminados||0)-qty;
+          if(cComp){ p.comprometidos=(p.comprometidos||0)-cComp; deltas.push({productId:p.id,field:'comprometidos',delta:-cComp}); }
+          this.addMovement('enviar',`Envié ${qty}× ${p.name}${cliTxt} (asistente)`,deltas);
+          done.push(`Envié ${qty} ${p.name} · terminados ${p.terminados}`);
+        }
+      } else {
+        const c=it.target; let delta;
+        if(it.dir==='entrada') delta=qty;
+        else if(it.dir==='ajuste'){ delta=it.qty; if(delta>0 && /rotur|romp|perd|descart|dana|dano|baja/.test(this.na(it.raw))) delta=-Math.abs(delta); }
+        else delta=-qty;
+        c.stock=(c.stock||0)+delta;
+        const type=it.dir==='entrada'?'entrada':(it.dir==='ajuste'?'ajuste':'salida');
+        this.addMovement(type,`${delta>0?'+':''}${delta} ${c.name} (asistente)`,[{componentId:c.id,delta}]);
+        done.push(`${delta>0?'+':''}${delta} ${c.name} · stock ${c.stock}`);
+      }
+    });
+    delete this._pending[pid]; this.save();
+    let html='✅ Listo, actualicé el stock:<ul>'+done.map(d=>`<li>${this.esc(d)}</li>`).join('')+'</ul>';
+    if(warn.length) html+='<div style="margin-top:8px;color:var(--warn)">⚠️ '+warn.map(w=>this.esc(w)).join('<br>')+'</div>';
+    html+=`<div class="hint" style="margin-top:8px">${this.cfg.token?'Acordate de <b>⬆ Guardar en GitHub</b> para persistir en el repo.':'Guardado en este navegador. Exportá el JSON desde ⚙ o configurá GitHub para que quede en el repo.'}</div>`;
+    this.botSay(html); this.rechat();
+  },
+
+  // ---------- RESUMEN ----------
+  view_resumen(){
+    const low=this.state.components.filter(c=>(c.stock||0)<=0);
+    let html=`<div class="kpis">
+      <div class="kpi"><div class="v">${this.money(this.invValue())}</div><div class="l">Valor total del stock</div></div>
+      <div class="kpi"><div class="v">${this.state.components.length}</div><div class="l">Componentes distintos</div></div>
+      <div class="kpi"><div class="v">${this.state.products.length}</div><div class="l">Productos</div></div>
+      <div class="kpi"><div class="v" style="color:var(--bad)">${this.state.components.filter(c=>this.sem(c)==='rojo').length}</div><div class="l">Para pedir (rojo)</div></div>
+      <div class="kpi"><div class="v" style="color:var(--warn)">${this.state.components.filter(c=>this.sem(c)==='amarillo').length}</div><div class="l">Justo (amarillo)</div></div>
+    </div>`;
+    html+=`<h3 style="margin:6px 0 12px">Devices por producto</h3><div class="cards">`;
+    this.state.products.forEach(p=>{ const venta=this.paraVenta(p), arm=this.canShip(p), term=p.terminados||0, comp=p.comprometidos||0, cap=this.capacidad(p), lim=this.limitante(p);
+      html+=`<div class="card"><h3>${this.esc(p.name)}</h3>
+        <div class="big ${venta<=2?'low':''}">${venta}</div><div class="sub">disponibles para la venta</div>
+        <div class="sub" style="margin-top:10px">En stock (capacidad): <b>${cap}</b> &nbsp;·&nbsp; Listos p/enviar: <b>${term}</b></div>
+        <div class="sub">Terminados ${term} · Puedo armar ${arm} · Comprometidos ${comp}</div>
+        ${lim?`<div class="sub">Limita armado: <b>${this.esc(lim.name)}</b> (${lim.stock})</div>`:''}</div>`; });
+    html+=`</div>`;
+    if(low.length){ html+=`<h3 style="margin:22px 0 8px">⚠ Sin stock</h3><div class="tablewrap"><table><thead><tr><th>Componente</th><th>Grupo</th><th>Usado en</th></tr></thead><tbody>`;
+      low.forEach(c=>{ html+=`<tr><td>${this.esc(c.name)}</td><td><span class="chip ${this.gcls(c.group)}">${this.esc(c.group)}</span></td><td class="small muted">${this.usedIn(c.id).join(', ')||'—'}</td></tr>`; });
+      html+=`</tbody></table></div>`; }
+    return html;
+  },
+  bottleneck(p){ let best=null,m=Infinity; p.bom.forEach(b=>{const c=this.comp(b.componentId); if(c&&b.qty>0){const cap=Math.floor((c.stock||0)/b.qty); if(cap<m){m=cap;best=c;}}}); return best; },
+
+  // ---------- PRODUCTOS ----------
+  view_productos(){
+    if(!this.state.products.length) return `<p class="muted">No hay productos.</p>${this.newProductBar()}`;
+    if(!this.prod(this.activeProduct)) this.activeProduct=this.state.products[0].id;
+    const p=this.prod(this.activeProduct);
+    let html=`<div class="seg">`+this.state.products.map(pp=>`<button class="${pp.id===this.activeProduct?'active':''}" onclick="App.selProduct('${pp.id}')">${this.esc(pp.name)}</button>`).join('')+`</div>`;
+    html+=this.newProductBar();
+    const n=this.canShip(p);
+    html+=`<div class="row" style="justify-content:space-between;margin-bottom:6px">
+      <div><b style="font-size:16px">${this.esc(p.name)}</b></div>
+      <div class="flexbtns"><button class="sm" onclick="App.addCompToProduct('${p.id}')">+ Asignar componente</button>
+      <button class="sm danger" onclick="App.deleteProduct('${p.id}')">Borrar producto</button></div></div>`;
+    html+=`<div class="tablewrap" style="margin-top:8px"><table><tbody>
+      <tr><td>Terminados en stock (armados)</td><td class="right"><input class="stock-in" type="number" value="${p.terminados||0}" onchange="App.setProdField('${p.id}','terminados',this.value)"></td>
+          <td>Comprometidos (vendidos s/entregar)</td><td class="right"><input class="stock-in" type="number" value="${p.comprometidos||0}" onchange="App.setProdField('${p.id}','comprometidos',this.value)"></td></tr>
+      <tr><td>Puedo armar (solo bloqueantes)${this.limitante(p)?" · limita <b>"+this.esc(this.limitante(p).name)+"</b>":""}</td><td class="right"><b>${n}</b></td>
+          <td>En stock (capacidad total)</td><td class="right"><b>${this.capacidad(p)}</b></td></tr>
+      <tr><td>Listos para enviar</td><td class="right"><b>${p.terminados||0}</b></td>
+          <td>Disponibles para la venta</td><td class="right"><b class="${this.paraVenta(p)<=2?'low':''}">${this.paraVenta(p)}</b></td></tr>
+    </tbody></table></div>
+    <div class="hint" style="margin:6px 0 10px">Cargá movimientos por texto en 🤖 Asistente (ej: "armé 5 ${this.esc(p.name)}", "vendí 10 a Grido", "envié 3 a Grido") o en la pestaña Movimientos.</div>`;
+    html+=`<div class="tablewrap"><table><thead><tr><th>Componente</th><th>Grupo</th><th class="right">Qty x prod.</th><th class="right">Stock</th><th class="right">Stock $</th><th style="text-align:center">Bloq.</th><th></th></tr></thead><tbody>`;
+    p.bom.forEach(b=>{ const c=this.comp(b.componentId); if(!c) return; const shared=this.usedIn(c.id).length>1;
+      html+=`<tr>
+        <td>${this.esc(c.name)} ${shared?`<span class="chip shared" title="Compartido: ${this.usedIn(c.id).join(', ')}">compartido</span>`:''}</td>
+        <td><span class="chip ${this.gcls(c.group)}">${this.esc(c.group)}</span></td>
+        <td class="right"><input class="stock-in" style="width:60px" type="number" value="${b.qty}" onchange="App.setBomQty('${p.id}','${b.componentId}',this.value)"></td>
+        <td class="right"><input class="stock-in ${this.semCls(c)} ${(c.stock||0)<0?'neg':''}" type="number" value="${c.stock||0}" onchange="App.setStock('${c.id}',this.value)"></td>
+        <td class="right muted">${this.money((c.stock||0)*(c.price||0))}</td>
+        <td style="text-align:center"><input type="checkbox" ${b.critical?'checked':''} onchange="App.setCritical('${p.id}','${b.componentId}',this.checked)"></td>
+        <td class="right"><button class="sm danger" onclick="App.removeFromBom('${p.id}','${b.componentId}')">quitar</button></td>
+      </tr>`; });
+    html+=`</tbody></table></div><div class="hint">Marcá <b>Bloq.</b> en los componentes que realmente limitan el armado (los difíciles de conseguir). Los no marcados se asumen disponibles y no frenan "puedo armar".</div>`;
+    return html;
+  },
+  newProductBar(){ return `<div class="row" style="margin:8px 0 16px"><input type="text" id="newProdName" placeholder="Nombre nuevo producto"><button class="sm" onclick="App.createProduct()">+ Crear producto</button></div>`; },
+  selProduct(id){ this.activeProduct=id; this.render(); },
+
+  // ---------- COMPONENTES ----------
+  view_componentes(){
+    const groups=[...new Set(this.state.components.map(c=>c.group))];
+    let html=`<div class="searchbar">
+      <input type="text" id="compSearch" placeholder="Buscar componente..." value="${this.esc(this.compFilter)}" oninput="App.compFilter=this.value;App.render();var el=document.getElementById('compSearch');el.focus();el.setSelectionRange(el.value.length,el.value.length)">
+      <select onchange="App.compGroup=this.value;App.render()"><option value="">Todos los grupos</option>${groups.map(g=>`<option ${g===this.compGroup?'selected':''}>${this.esc(g)}</option>`).join('')}</select>
+      <button class="sm" onclick="App.newComponent()">+ Nuevo componente</button>
+      <button class="sm" onclick="App.openSemaforo()">⚙ Semáforo</button>
+      <div class="spacer"></div><span class="muted small" style="align-self:center">Valor: ${this.money(this.invValue())}</span></div>`;
+    let list=this.state.components.filter(c=>(!this.compGroup||c.group===this.compGroup)&&(!this.compFilter||c.name.toLowerCase().includes(this.compFilter.toLowerCase())));
+    html+=`<div class="tablewrap"><table><thead><tr><th>Componente</th><th>Grupo</th><th class="right">Stock</th><th class="right" title="Rojo si stock ≤">Rojo≤</th><th class="right" title="Amarillo si stock ≤">Amar≤</th><th class="right">Precio U</th><th class="right">Stock $</th><th>Usado en</th><th></th></tr></thead><tbody>`;
+    list.forEach(c=>{ const used=this.usedIn(c.id);
+      html+=`<tr>
+        <td><span class="dotst ${this.sem(c)}"></span>${this.esc(c.name)}</td>
+        <td><span class="chip ${this.gcls(c.group)}">${this.esc(c.group)}</span></td>
+        <td class="right"><input class="stock-in ${this.semCls(c)} ${(c.stock||0)<0?'neg':''}" type="number" value="${c.stock||0}" onchange="App.setStock('${c.id}',this.value)"></td>
+        <td class="right"><input class="stock-in" style="width:54px" type="number" placeholder="${(this.state.settings||{}).rojo}" value="${c.min!=null?c.min:''}" onchange="App.setThr('${c.id}','min',this.value)"></td>
+        <td class="right"><input class="stock-in" style="width:54px" type="number" placeholder="${(this.state.settings||{}).amarillo}" value="${c.warn!=null?c.warn:''}" onchange="App.setThr('${c.id}','warn',this.value)"></td>
+        <td class="right"><input class="stock-in" style="width:70px" type="number" step="0.01" value="${c.price||0}" onchange="App.setPrice('${c.id}',this.value)"></td>
+        <td class="right muted">${this.money((c.stock||0)*(c.price||0))}</td>
+        <td class="small muted">${used.length?used.join(', '):'—'}</td>
+        <td class="right"><button class="sm" onclick="App.editComponent('${c.id}')">editar</button> <button class="sm danger" onclick="App.deleteComponent('${c.id}')">borrar</button></td>
+      </tr>`; });
+    html+=`</tbody></table></div><div class="hint">${list.length} de ${this.state.components.length} componentes. El stock es único: si un componente se usa en varios productos, cambia en todos.</div>`;
+    return html;
+  },
+
+  // ---------- PARA PEDIR ----------
+  view_pedir(){
+    const g=this.state.settings||{rojo:5,amarillo:15}; const list=this.pedirList();
+    let html=`<div class="row" style="justify-content:space-between;margin-bottom:8px"><div><b>Para pedir</b> <span class="muted">— componentes en rojo o amarillo</span></div><button class="sm" onclick="App.openSemaforo()">⚙ Semáforo</button></div>`;
+    if(!list.length) return html+`<p class="muted">Todo en verde 👍 Nada para pedir.</p>`;
+    html+=`<div class="tablewrap"><table><thead><tr><th>Estado</th><th>Componente</th><th>Grupo</th><th class="right">Stock</th><th class="right">Rojo≤</th><th class="right">Amar≤</th><th>Proveedor</th><th class="right">Pedir ~</th></tr></thead><tbody>`;
+    list.forEach(c=>{ const st=this.sem(c), r=(c.min!=null?c.min:g.rojo), w=(c.warn!=null?c.warn:g.amarillo);
+      html+=`<tr><td><span class="dotst ${st}"></span>${st==='rojo'?'Pedir ya':'Justo'}</td>
+        <td>${this.esc(c.name)}</td><td><span class="chip ${this.gcls(c.group)}">${this.esc(c.group)}</span></td>
+        <td class="right ${st==='rojo'?'neg':'low'}">${c.stock||0}</td><td class="right muted">${r}</td><td class="right muted">${w}</td>
+        <td class="small muted">${this.esc(c.provider||'—')}</td><td class="right"><b>${this.semSug(c)}</b></td></tr>`; });
+    html+=`</tbody></table></div><div class="hint">"Pedir ~" es lo mínimo para volver a verde. Ajustá los umbrales por componente en Componentes, o el default global en ⚙ Semáforo.</div>`;
+    return html;
+  },
+  setThr(id,f,v){ const c=this.comp(id); if(v===''||v==null){ delete c[f]; } else { c[f]=parseFloat(v); } this.save(); this.render(); },
+  openSemaforo(){ const g=this.state.settings||{rojo:5,amarillo:15};
+    this.modal(`<h2>Configurar semáforo (default global)</h2>
+      <p class="hint">Se aplica a los componentes sin umbral propio. 🔴 si stock ≤ rojo · 🟡 si ≤ amarillo · 🟢 si es mayor. Podés poner umbrales por componente en la pestaña Componentes (columnas Rojo≤ / Amar≤).</p>
+      <div class="row"><div class="field"><label>🔴 Rojo si stock ≤</label><input type="number" id="sm_rojo" value="${g.rojo}" style="width:110px"></div>
+      <div class="field"><label>🟡 Amarillo si stock ≤</label><input type="number" id="sm_amar" value="${g.amarillo}" style="width:110px"></div></div>
+      <div class="flexbtns"><button class="primary" onclick="App.saveSemaforo()">Guardar</button><button onclick="App.closeModal()">Cerrar</button></div>`);
+  },
+  saveSemaforo(){ const r=parseFloat(document.getElementById('sm_rojo').value)||0, a=parseFloat(document.getElementById('sm_amar').value)||0; this.state.settings={rojo:r,amarillo:a}; this.closeModal(); this.save(); this.render(); this.toast('Semáforo actualizado ✓','ok'); },
+
+  // ---------- MOVIMIENTOS ----------
+  mvType:'enviar',
+  view_movimientos(){
+    const seg=(k,l)=>`<button class="${this.mvType===k?'active':''}" onclick="App.mvType='${k}';App.render()">${l}</button>`;
+    let html=`<div class="seg">${seg('armar','🔧 Armar')}${seg('enviar','📦 Enviar')}${seg('vender','🏷️ Vender/Reservar')}${seg('entrada','⬇ Entrada comp.')}${seg('ajuste','✎ Ajuste comp.')}</div>`;
+    if(this.mvType==='armar') html+=this.formArmar();
+    if(this.mvType==='enviar') html+=this.formEnviar();
+    if(this.mvType==='vender') html+=this.formVender();
+    if(this.mvType==='entrada') html+=this.formEntrada();
+    if(this.mvType==='ajuste') html+=this.formAjuste();
+    const recent=this.state.movements.slice(0,6);
+    if(recent.length){ html+=`<h3 style="margin:20px 0 8px">Últimos movimientos</h3><div class="tablewrap"><table><tbody>`; recent.forEach(m=>html+=this.logRow(m)); html+=`</tbody></table></div>`; }
+    return html;
+  },
+  prodOptions(sel){ return this.state.products.map(pp=>`<option value="${pp.id}" ${sel&&pp.id===sel.id?'selected':''}>${this.esc(pp.name)}</option>`).join(''); }
+  ,
+  formArmar(){ const p=this.prod(this.activeProduct)||this.state.products[0];
+    return `<div class="formcard"><h3>Armar / fabricar (resta componentes, suma a Terminados)</h3>
+      <div class="row">
+        <div class="field"><label>Producto</label><select id="ar_prod">${this.prodOptions(p)}</select></div>
+        <div class="field"><label>Cantidad a armar</label><input type="number" id="ar_qty" value="1" min="1" style="width:110px"></div>
+        <div class="field"><label>&nbsp;</label><button class="primary" onclick="App.doArmar()">Armar</button></div>
+      </div>
+      <div class="hint">Descuenta los componentes del BOM × cantidad y suma esa cantidad a los Terminados del producto.</div>
+    </div>`;
+  },
+  formEnviar(){ const p=this.prod(this.activeProduct)||this.state.products[0]; const cli=this.state.clientes;
+    return `<div class="formcard"><h3>Enviar (despacha Terminados)</h3>
+      <div class="row">
+        <div class="field"><label>Producto</label><select id="en_prod">${this.prodOptions(p)}</select></div>
+        <div class="field"><label>Cantidad</label><input type="number" id="en_qty" value="1" min="1" style="width:100px"></div>
+        <div class="field"><label>Cliente</label><select id="en_cli">${cli.map(c=>`<option>${this.esc(c.name)}</option>`).join('')}</select></div>
+        <div class="field"><label>Tienda</label><input type="text" id="en_tienda" placeholder="Tienda / sucursal"></div>
+        <div class="field"><label>&nbsp;</label><button class="primary" onclick="App.doEnviar()">Registrar envío</button></div>
+      </div>
+      <div class="hint">Resta de los Terminados armados. Si hay comprometidos, también los baja. Los componentes NO se tocan (ya se descontaron al armar).</div>
+    </div>`;
+  },
+  formVender(){ const p=this.prod(this.activeProduct)||this.state.products[0]; const cli=this.state.clientes;
+    return `<div class="formcard"><h3>Vender / Reservar (marca como comprometido)</h3>
+      <div class="row">
+        <div class="field"><label>Producto</label><select id="ve_prod">${this.prodOptions(p)}</select></div>
+        <div class="field"><label>Cantidad</label><input type="number" id="ve_qty" value="1" min="1" style="width:100px"></div>
+        <div class="field"><label>Cliente</label><select id="ve_cli">${cli.map(c=>`<option>${this.esc(c.name)}</option>`).join('')}</select></div>
+        <div class="field"><label>&nbsp;</label><button class="primary" onclick="App.doVender()">Registrar venta/reserva</button></div>
+      </div>
+      <div class="hint">Suma a Comprometidos (vendidos sin entregar). Baja los "disponibles para la venta" pero no toca stock físico hasta que envíes.</div>
+    </div>`;
+  },
+  refreshPreview(){ const pid=document.getElementById('s_prod').value, qty=parseFloat(document.getElementById('s_qty').value)||1; document.getElementById('salPreview').innerHTML=this.previewSalida(pid,qty); },
+  previewSalida(pid,qty){ const p=this.prod(pid); if(!p) return '';
+    let rows=p.bom.map(b=>{const c=this.comp(b.componentId); if(!c)return''; const after=(c.stock||0)-qty*b.qty; return `<tr><td>${this.esc(c.name)}</td><td class="right">${c.stock||0}</td><td class="right">−${qty*b.qty}</td><td class="right ${after<0?'neg':''}">${after}</td></tr>`;}).join('');
+    return `<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>Componente</th><th class="right">Ahora</th><th class="right">Sale</th><th class="right">Queda</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  },
+  formEntrada(){
+    return `<div class="formcard"><h3>Entrada de stock</h3>
+      <div class="hint" style="margin-bottom:12px">Opción A: cargar un <b>conjunto/kit</b> de un producto (suma la cantidad a cada componente de ese grupo). Opción B: sumar a un componente puntual.</div>
+      <div class="row" style="align-items:flex-start">
+        <div class="formcard" style="flex:1;min-width:280px;margin:0">
+          <b>A · Por conjunto</b>
+          <div class="field" style="margin-top:10px"><label>Producto</label><select id="e_prod">${this.state.products.map(pp=>`<option value="${pp.id}">${this.esc(pp.name)}</option>`).join('')}</select></div>
+          <div class="field"><label>Tipo de conjunto</label><select id="e_group"><option>Sheet metal</option><option>Componentes</option><option>Packaging</option></select></div>
+          <div class="field"><label>Cantidad de kits</label><input type="number" id="e_kits" value="1" min="1" style="width:100px"></div>
+          <button class="primary" onclick="App.doEntradaConjunto()">Sumar conjunto</button>
+        </div>
+        <div class="formcard" style="flex:1;min-width:280px;margin:0">
+          <b>B · Componente puntual</b>
+          <div class="field" style="margin-top:10px"><label>Componente</label><select id="e_comp">${this.state.components.map(c=>`<option value="${c.id}">${this.esc(c.name)}</option>`).join('')}</select></div>
+          <div class="field"><label>Cantidad que entra</label><input type="number" id="e_qty" value="1" min="1" style="width:100px"></div>
+          <button class="primary" onclick="App.doEntradaComp()">Sumar al componente</button>
+        </div>
+      </div>
+    </div>`;
+  },
+  formAjuste(){
+    return `<div class="formcard"><h3>Ajuste manual de un componente</h3>
+      <div class="row">
+        <div class="field"><label>Componente</label><select id="a_comp">${this.state.components.map(c=>`<option value="${c.id}">${this.esc(c.name)} (stock ${c.stock||0})</option>`).join('')}</select></div>
+        <div class="field"><label>Ajuste (+/−)</label><input type="number" id="a_delta" value="0" style="width:100px"></div>
+        <div class="field"><label>Motivo (opcional)</label><input type="text" id="a_reason" placeholder="conteo, rotura, etc."></div>
+        <div class="field"><label>&nbsp;</label><button class="primary" onclick="App.doAjuste()">Aplicar ajuste</button></div>
+      </div>
+      <div class="hint">Usá + para sumar, − para restar. Ej: −3 si se rompieron 3 unidades.</div>
+    </div>`;
+  },
+
+  // ---------- HISTORIAL ----------
+  view_historial(){
+    if(!this.state.movements.length) return `<p class="muted">Sin movimientos todavía.</p>`;
+    let html=`<div class="row" style="justify-content:space-between;margin-bottom:10px"><b>${this.state.movements.length} movimientos</b><button class="sm ghost" onclick="App.exportCSV()">Exportar CSV</button></div><div class="tablewrap"><table><tbody>`;
+    this.state.movements.forEach(m=>html+=this.logRow(m,true));
+    html+=`</tbody></table></div>`;
+    return html;
+  },
+  logRow(m,withRevert){
+    const badge={enviar:'bt-out',salida:'bt-out',armar:'bt-in',entrada:'bt-in',vender:'bt-adj',ajuste:'bt-adj',abm:'bt-abm'}[m.type]||'bt-adj';
+    const label={enviar:'ENVÍO',salida:'RESTA',armar:'ARMÉ',entrada:'ENTRADA',vender:'VENTA',ajuste:'AJUSTE',abm:'ABM'}[m.type]||m.type;
+    return `<tr class="log"><td style="width:150px" class="t">${new Date(m.ts).toLocaleString('es-AR')}</td>
+      <td style="width:80px"><span class="badge-type ${badge}">${label}</span></td>
+      <td>${this.esc(m.desc)}</td>
+      ${withRevert?`<td class="right" style="width:90px">${m.deltas&&m.deltas.length?`<button class="sm ghost" onclick="App.revert('${m.id}')">revertir</button>`:''}</td>`:''}</tr>`;
+  },
+
+  // ---------- MUTATIONS ----------
+  setStock(id,v){ const c=this.comp(id); c.stock=parseFloat(v)||0; this.save(); this.render(); },
+  setProdField(pid,f,v){ const p=this.prod(pid); p[f]=parseFloat(v)||0; this.save(); this.render(); },
+  setCritical(pid,cid,val){ const p=this.prod(pid); const b=p.bom.find(x=>x.componentId===cid); if(b){b.critical=val; this.save(); this.render();} },
+  setPrice(id,v){ const c=this.comp(id); c.price=parseFloat(v)||0; this.save(); this.render(); },
+  setBomQty(pid,cid,v){ const p=this.prod(pid); const b=p.bom.find(x=>x.componentId===cid); b.qty=parseFloat(v)||0; this.save(); this.render(); },
+  removeFromBom(pid,cid){ const p=this.prod(pid); const c=this.comp(cid); if(!confirm('¿Quitar "'+c.name+'" del BOM de '+p.name+'? (no borra el componente)'))return; p.bom=p.bom.filter(x=>x.componentId!==cid); this.logAbm('Quitado '+c.name+' del BOM de '+p.name); this.save(); this.render(); },
+  createProduct(){ const el=document.getElementById('newProdName'); const name=(el.value||'').trim(); if(!name)return this.toast('Escribí un nombre','err'); const id='p'+Date.now(); this.state.products.push({id,name,bom:[]}); this.activeProduct=id; this.logAbm('Producto creado: '+name); this.save(); this.render(); },
+  deleteProduct(pid){ const p=this.prod(pid); if(!confirm('¿Borrar producto "'+p.name+'"? No borra componentes.'))return; this.state.products=this.state.products.filter(x=>x.id!==pid); this.activeProduct=this.state.products[0]?this.state.products[0].id:null; this.logAbm('Producto borrado: '+p.name); this.save(); this.render(); },
+  deleteComponent(id){ const c=this.comp(id); const used=this.usedIn(id); if(used.length && !confirm('"'+c.name+'" está en: '+used.join(', ')+'. ¿Borrar igual? Se quita de esos productos.'))return; if(!used.length && !confirm('¿Borrar "'+c.name+'"?'))return; this.state.products.forEach(p=>p.bom=p.bom.filter(b=>b.componentId!==id)); this.state.components=this.state.components.filter(x=>x.id!==id); this.logAbm('Componente borrado: '+c.name); this.save(); this.render(); },
+
+  doArmar(){
+    const pid=document.getElementById('ar_prod').value, qty=parseFloat(document.getElementById('ar_qty').value)||0;
+    if(qty<=0)return this.toast('Cantidad inválida','err');
+    const p=this.prod(pid);
+    const neg=p.bom.filter(b=>{const c=this.comp(b.componentId);return c&&(c.stock||0)-qty*b.qty<0;});
+    if(neg.length && !confirm('Faltan componentes (quedan negativos):\n'+neg.map(b=>'· '+this.comp(b.componentId).name).join('\n')+'\n\n¿Armar igual?'))return;
+    const deltas=[];
+    p.bom.forEach(b=>{const c=this.comp(b.componentId); if(c){c.stock=(c.stock||0)-qty*b.qty; deltas.push({componentId:c.id,delta:-qty*b.qty});}});
+    p.terminados=(p.terminados||0)+qty; deltas.push({productId:p.id,field:'terminados',delta:qty});
+    this.addMovement('armar',`Armé ${qty}× ${p.name}`,deltas);
+    this.toast('Armado ✓','ok'); this.save(); this.render();
+  },
+  doEnviar(){
+    const pid=document.getElementById('en_prod').value, qty=parseFloat(document.getElementById('en_qty').value)||0;
+    const cli=document.getElementById('en_cli').value, tienda=document.getElementById('en_tienda').value.trim();
+    if(qty<=0)return this.toast('Cantidad inválida','err');
+    const p=this.prod(pid);
+    if((p.terminados||0)<qty && !confirm(`Solo tenés ${p.terminados||0} armados de ${p.name}. ¿Enviar igual? (quedan negativos)`))return;
+    const cComp=Math.min(qty,p.comprometidos||0); const deltas=[{productId:p.id,field:'terminados',delta:-qty}];
+    p.terminados=(p.terminados||0)-qty;
+    if(cComp){ p.comprometidos=(p.comprometidos||0)-cComp; deltas.push({productId:p.id,field:'comprometidos',delta:-cComp}); }
+    this.addMovement('enviar',`Envié ${qty}× ${p.name} → ${cli}${tienda?' · '+tienda:''}`,deltas);
+    this.toast('Envío registrado ✓','ok'); this.save(); this.render();
+  },
+  doVender(){
+    const pid=document.getElementById('ve_prod').value, qty=parseFloat(document.getElementById('ve_qty').value)||0;
+    const cli=document.getElementById('ve_cli').value;
+    if(qty<=0)return this.toast('Cantidad inválida','err');
+    const p=this.prod(pid); p.comprometidos=(p.comprometidos||0)+qty;
+    this.addMovement('vender',`Vendí/reservé ${qty}× ${p.name} → ${cli}`,[{productId:p.id,field:'comprometidos',delta:qty}]);
+    this.toast('Venta/reserva registrada ✓','ok'); this.save(); this.render();
+  },
+  doEntradaConjunto(){
+    const pid=document.getElementById('e_prod').value, group=document.getElementById('e_group').value, kits=parseFloat(document.getElementById('e_kits').value)||0;
+    if(kits<=0)return this.toast('Cantidad inválida','err');
+    const p=this.prod(pid); const deltas=[];
+    p.bom.forEach(b=>{const c=this.comp(b.componentId); if(c && c.group===group){c.stock=(c.stock||0)+kits; deltas.push({componentId:c.id,delta:kits});}});
+    if(!deltas.length)return this.toast('Ese producto no tiene componentes de '+group,'err');
+    this.addMovement('entrada',`${kits} conjunto(s) ${group} de ${p.name} (${deltas.length} comp.)`,deltas);
+    this.toast('Entrada registrada ✓','ok'); this.save(); this.render();
+  },
+  doEntradaComp(){
+    const id=document.getElementById('e_comp').value, qty=parseFloat(document.getElementById('e_qty').value)||0;
+    if(qty<=0)return this.toast('Cantidad inválida','err');
+    const c=this.comp(id); c.stock=(c.stock||0)+qty;
+    this.addMovement('entrada',`+${qty} ${c.name}`,[{componentId:id,delta:qty}]);
+    this.toast('Entrada registrada ✓','ok'); this.save(); this.render();
+  },
+  doAjuste(){
+    const id=document.getElementById('a_comp').value, delta=parseFloat(document.getElementById('a_delta').value)||0, reason=document.getElementById('a_reason').value.trim();
+    if(delta===0)return this.toast('El ajuste es 0','err');
+    const c=this.comp(id); c.stock=(c.stock||0)+delta;
+    this.addMovement('ajuste',`${delta>0?'+':''}${delta} ${c.name}${reason?' ('+reason+')':''}`,[{componentId:id,delta}]);
+    this.toast('Ajuste aplicado ✓','ok'); this.save(); this.render();
+  },
+  addMovement(type,desc,deltas){ this.state.movements.unshift({id:'m'+Date.now()+Math.random().toString(36).slice(2,6),ts:new Date().toISOString(),type,desc,deltas}); },
+  logAbm(desc){ this.addMovement('abm',desc,[]); },
+  revert(mid){ const m=this.state.movements.find(x=>x.id===mid); if(!m||!m.deltas.length)return; if(!confirm('¿Revertir "'+m.desc+'"?'))return; m.deltas.forEach(d=>{ if(d.componentId){const c=this.comp(d.componentId); if(c)c.stock=(c.stock||0)-d.delta;} else if(d.productId){const p=this.prod(d.productId); if(p)p[d.field]=(p[d.field]||0)-d.delta;} }); this.addMovement('ajuste','↩ Revertido: '+m.desc,m.deltas.map(d=>d.componentId?{componentId:d.componentId,delta:-d.delta}:{productId:d.productId,field:d.field,delta:-d.delta})); this.save(); this.render(); },
+
+  // ---------- modals ----------
+  addCompToProduct(pid){
+    const p=this.prod(pid); const avail=this.state.components.filter(c=>!p.bom.some(b=>b.componentId===c.id));
+    this.modal(`<h2>Asignar componente a ${this.esc(p.name)}</h2>
+      <div class="field"><label>Componente existente</label><select id="ac_sel">${avail.map(c=>`<option value="${c.id}">${this.esc(c.name)} · ${this.esc(c.group)}</option>`).join('')}</select></div>
+      <div class="field"><label>Qty por producto</label><input type="number" id="ac_qty" value="1" min="0" style="width:100px"></div>
+      <div class="flexbtns"><button class="primary" onclick="App.confirmAddComp('${pid}')">Asignar</button><button onclick="App.closeModal()">Cancelar</button></div>
+      <hr style="border-color:var(--line);margin:16px 0"><div class="hint">¿No existe? <a href="#" onclick="App.closeModal();App.newComponent('${pid}');return false">Crear componente nuevo</a></div>`);
+  },
+  confirmAddComp(pid){ const cid=document.getElementById('ac_sel').value, qty=parseFloat(document.getElementById('ac_qty').value)||1; const p=this.prod(pid); if(!cid)return this.toast('No hay componentes disponibles','err'); p.bom.push({componentId:cid,qty}); this.logAbm('Asignado '+this.comp(cid).name+' a '+p.name); this.closeModal(); this.save(); this.render(); },
+  newComponent(assignTo){
+    this.modal(`<h2>Nuevo componente</h2>
+      <div class="field"><label>Nombre</label><input type="text" id="nc_name" placeholder="Descripción"></div>
+      <div class="field"><label>Grupo</label><select id="nc_group"><option>Componentes</option><option>Sheet metal</option><option>Packaging</option></select></div>
+      <div class="row"><div class="field"><label>Stock inicial</label><input type="number" id="nc_stock" value="0" style="width:100px"></div>
+      <div class="field"><label>Precio unitario</label><input type="number" step="0.01" id="nc_price" value="0" style="width:100px"></div>
+      <div class="field"><label>Proveedor</label><input type="text" id="nc_prov"></div></div>
+      <div class="flexbtns"><button class="primary" onclick="App.confirmNewComp(${assignTo?`'${assignTo}'`:'null'})">Crear</button><button onclick="App.closeModal()">Cancelar</button></div>`);
+  },
+  confirmNewComp(assignTo){ const name=document.getElementById('nc_name').value.trim(); if(!name)return this.toast('Falta el nombre','err'); const id='c'+Date.now(); this.state.components.push({id,name,group:document.getElementById('nc_group').value,stock:parseFloat(document.getElementById('nc_stock').value)||0,price:parseFloat(document.getElementById('nc_price').value)||0,provider:document.getElementById('nc_prov').value.trim(),notes:''}); this.logAbm('Componente creado: '+name); if(assignTo){const p=this.prod(assignTo); if(p)p.bom.push({componentId:id,qty:1});} this.closeModal(); this.save(); this.render(); },
+  editComponent(id){ const c=this.comp(id);
+    this.modal(`<h2>Editar componente</h2>
+      <div class="field"><label>Nombre</label><input type="text" id="ec_name" value="${this.esc(c.name)}"></div>
+      <div class="field"><label>Grupo</label><select id="ec_group">${['Componentes','Sheet metal','Packaging'].map(g=>`<option ${g===c.group?'selected':''}>${g}</option>`).join('')}</select></div>
+      <div class="row"><div class="field"><label>Stock</label><input type="number" id="ec_stock" value="${c.stock||0}" style="width:100px"></div>
+      <div class="field"><label>Precio U</label><input type="number" step="0.01" id="ec_price" value="${c.price||0}" style="width:100px"></div>
+      <div class="field"><label>Proveedor</label><input type="text" id="ec_prov" value="${this.esc(c.provider||'')}"></div></div>
+      <div class="flexbtns"><button class="primary" onclick="App.confirmEditComp('${id}')">Guardar</button><button onclick="App.closeModal()">Cancelar</button></div>`);
+  },
+  confirmEditComp(id){ const c=this.comp(id); c.name=document.getElementById('ec_name').value.trim()||c.name; c.group=document.getElementById('ec_group').value; c.stock=parseFloat(document.getElementById('ec_stock').value)||0; c.price=parseFloat(document.getElementById('ec_price').value)||0; c.provider=document.getElementById('ec_prov').value.trim(); this.closeModal(); this.save(); this.render(); },
+
+  // ---------- GitHub / config ----------
+  openConfig(){
+    this.modal(`<h2>Configuración de GitHub</h2>
+      <p class="hint">Para que los datos se guarden en tu repo. Necesitás un <b>fine-grained token</b> con permiso <b>Contents: Read and write</b> sobre ese repo. El token queda solo en este navegador.</p>
+      <div class="field"><label>Usuario / organización (owner)</label><input type="text" id="cf_owner" value="${this.esc(this.cfg.owner)}" placeholder="ej: francodinapoli"></div>
+      <div class="field"><label>Repositorio</label><input type="text" id="cf_repo" value="${this.esc(this.cfg.repo)}" placeholder="ej: stock-idiot"></div>
+      <div class="row"><div class="field"><label>Rama</label><input type="text" id="cf_branch" value="${this.esc(this.cfg.branch)}" style="width:120px"></div>
+      <div class="field"><label>Archivo de datos</label><input type="text" id="cf_path" value="${this.esc(this.cfg.path)}" style="width:160px"></div></div>
+      <div class="field"><label>Token (PAT)</label><input type="text" id="cf_token" value="${this.esc(this.cfg.token)}" placeholder="github_pat_..."></div>
+      <div class="flexbtns"><button class="primary" onclick="App.saveConfig()">Guardar config</button>
+      <button onclick="App.pullGitHub()">Traer datos ahora</button>
+      <button class="ghost" onclick="App.exportJSON()">Descargar JSON</button>
+      <button class="ghost" onclick="App.importJSON()">Cargar JSON</button>
+      <button onclick="App.closeModal()">Cerrar</button></div>`);
+  },
+  saveConfig(){ this.cfg.owner=document.getElementById('cf_owner').value.trim(); this.cfg.repo=document.getElementById('cf_repo').value.trim(); this.cfg.branch=document.getElementById('cf_branch').value.trim()||'main'; this.cfg.path=document.getElementById('cf_path').value.trim()||'data.json'; this.cfg.token=document.getElementById('cf_token').value.trim(); this.saveCfg(); this.updateSync(); this.toast('Config guardada','ok'); },
+  ghHeaders(){ return {'Authorization':'Bearer '+this.cfg.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}; },
+  ghUrl(){ return `https://api.github.com/repos/${this.cfg.owner}/${this.cfg.repo}/contents/${this.cfg.path}`; },
+  b64enc(s){ return btoa(unescape(encodeURIComponent(s))); },
+  b64dec(s){ return decodeURIComponent(escape(atob(s.replace(/\n/g,'')))); },
+  async pullGitHub(){
+    if(!this.cfg.token||!this.cfg.owner||!this.cfg.repo)return this.toast('Configurá GitHub primero (⚙)','err');
+    try{ const r=await fetch(this.ghUrl()+'?ref='+this.cfg.branch,{headers:this.ghHeaders()});
+      if(r.status===404){ this.toast('No existe '+this.cfg.path+' aún. Guardá para crearlo.','err'); return; }
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const j=await r.json(); this.cfg.sha=j.sha; this.saveCfg();
+      const data=JSON.parse(this.b64dec(j.content));
+      this.state=data; localStorage.setItem('stockData',JSON.stringify(this.state));
+      this.activeProduct=this.state.products[0]?this.state.products[0].id:null; this.dirty=false;
+      this.updateSync(); this.closeModal(); this.render(); this.toast('Datos traídos de GitHub ✓','ok');
+    }catch(e){ this.toast('Error al traer: '+e.message,'err'); document.getElementById('syncDot').className='dot err'; }
+  },
+  async pushGitHub(){
+    if(!this.cfg.token||!this.cfg.owner||!this.cfg.repo){ this.openConfig(); return this.toast('Configurá GitHub primero','err'); }
+    try{
+      let sha=this.cfg.sha;
+      const g=await fetch(this.ghUrl()+'?ref='+this.cfg.branch,{headers:this.ghHeaders()});
+      if(g.ok){ const gj=await g.json(); sha=gj.sha; }
+      const body={message:'Update stock '+new Date().toISOString(),content:this.b64enc(JSON.stringify(this.state,null,2)),branch:this.cfg.branch};
+      if(sha)body.sha=sha;
+      const r=await fetch(this.ghUrl(),{method:'PUT',headers:this.ghHeaders(),body:JSON.stringify(body)});
+      if(!r.ok){ const t=await r.text(); throw new Error('HTTP '+r.status+' '+t.slice(0,120)); }
+      const j=await r.json(); this.cfg.sha=j.content.sha; this.saveCfg(); this.dirty=false; this.updateSync();
+      this.toast('Guardado en GitHub ✓','ok');
+    }catch(e){ this.toast('Error al guardar: '+e.message,'err'); document.getElementById('syncDot').className='dot err'; }
+  },
+
+  // ---------- export / import ----------
+  exportJSON(){ this.download('data.json',JSON.stringify(this.state,null,2)); },
+  importJSON(){ const i=document.createElement('input'); i.type='file'; i.accept='.json'; i.onchange=e=>{const f=e.target.files[0]; const rd=new FileReader(); rd.onload=()=>{try{this.state=JSON.parse(rd.result); localStorage.setItem('stockData',JSON.stringify(this.state)); this.activeProduct=this.state.products[0]?this.state.products[0].id:null; this.closeModal(); this.render(); this.toast('JSON cargado ✓','ok');}catch(err){this.toast('JSON inválido','err');}}; rd.readAsText(f);}; i.click(); },
+  exportCSV(){ let csv='fecha,tipo,detalle\n'; this.state.movements.forEach(m=>csv+=`"${new Date(m.ts).toLocaleString('es-AR')}","${m.type}","${(m.desc||'').replace(/"/g,'""')}"\n`); this.download('movimientos.csv',csv); },
+  download(name,content){ const b=new Blob([content],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; a.click(); },
+
+  // ---------- ui utils ----------
+  modal(html){ document.getElementById('modalBox').innerHTML=html; document.getElementById('modalBg').classList.add('show'); },
+  closeModal(){ document.getElementById('modalBg').classList.remove('show'); },
+  toast(msg,type){ const t=document.getElementById('toast'); t.textContent=msg; t.className='toast show '+(type||''); setTimeout(()=>t.className='toast',2200); },
+};
+document.getElementById('modalBg').addEventListener('click',e=>{if(e.target.id==='modalBg')App.closeModal();});
+App.init();
+</script>
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
