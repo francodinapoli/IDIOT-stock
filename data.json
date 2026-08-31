@@ -1,7 +1,7 @@
 {
   "meta": {
     "currency": "USD",
-    "updatedAt": "2026-08-25T17:59:06.703Z",
+    "updatedAt": "2026-08-31T17:42:54.970Z",
     "version": 1
   },
   "components": [
@@ -1838,7 +1838,7 @@
           "qty": 1
         }
       ],
-      "terminados": 8,
+      "terminados": 7,
       "comprometidos": 0
     },
     {
